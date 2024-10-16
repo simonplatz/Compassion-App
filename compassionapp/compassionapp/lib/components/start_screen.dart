@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 
 class StartScreen extends StatelessWidget {
+  const StartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Start Screen'),
+        title: const Text('Start Screen'),
       ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
-          child: Text('Go to HomePage'),
+          child: const Text('Go to HomePage'),
         ),
       ),
     );

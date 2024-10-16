@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TherapyPage extends StatelessWidget {
   final String courseName;
 
-  TherapyPage({required this.courseName});
+  const TherapyPage({super.key, required this.courseName});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class TherapyPage extends StatelessWidget {
           children: [
             Text(
               'Welcome to the $courseName course!',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Here you will learn more about $courseName and practice exercises to improve your well-being.'),
           ],
         ),

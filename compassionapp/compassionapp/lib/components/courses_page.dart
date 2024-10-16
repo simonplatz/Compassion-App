@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'therapy_page.dart';
 
 class CoursesPage extends StatelessWidget {
-  final List<String> courses = ['Mindfulness', 'Self-Compassion', 'Stress Relief'];
+  const CoursesPage({super.key});
+
+  static List<String> courses = ['Mindfulness', 'Self-Compassion', 'Stress Relief'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Courses'),
+        title: const Text('Courses'),
       ),
       body: ListView.builder(
         itemCount: courses.length,
@@ -23,7 +25,7 @@ class CoursesPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => TherapyPage(courseName: courses[index])),
                 );
               },
-              child: Text('View Course'),
+              child: const Text('View Course'),
             ),
           );
         },

@@ -41,7 +41,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
 ""
 # Flutter/Dart/Pub related
 *.lock
@@ -105,3 +104,4 @@ windows/Flutter/ephemeral/
 *.swp
 *.DS_Store
 **/Thumbs.db
+""

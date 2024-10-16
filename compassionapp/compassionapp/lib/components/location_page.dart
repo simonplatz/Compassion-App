@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 
 class LocationPage extends StatefulWidget {
+  const LocationPage({super.key});
+
   @override
   _LocationPageState createState() => _LocationPageState();
 }
@@ -13,7 +15,7 @@ class _LocationPageState extends State<LocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Location'),
+        title: const Text('Location'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -21,16 +23,16 @@ class _LocationPageState extends State<LocationPage> {
           children: [
             Text(
               'Your Location: $_selectedLocation',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 setState(() {
                   _selectedLocation = 'University Campus';
                 });
               },
-              child: Text('Select Location'),
+              child: const Text('Select Location'),
             ),
           ],
         ),
@@ -38,4 +40,3 @@ class _LocationPageState extends State<LocationPage> {
     );
   }
 }
-
