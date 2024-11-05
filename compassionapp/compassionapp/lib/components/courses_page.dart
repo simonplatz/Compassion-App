@@ -1,4 +1,5 @@
 import 'package:compassionapp/features/courses/courseData.dart';
+import 'package:compassionapp/features/courses/courseListWidget.dart';
 import 'package:compassionapp/features/courses/course_list.dart';
 import 'package:compassionapp/features/courses/courses.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class CoursesPage extends StatelessWidget {
                   courseData.addCourse(Course(
                     title: 'New Course',
                     description: 'Description of the new course.',
-                    imageUrl: 'assets/images/self_compassion.jpg',
+                    imageUrl: 'assets/images/self_compassion.jpg', id: '',
                   ));
                 },
               ),
@@ -48,6 +49,9 @@ class CoursesPage extends StatelessWidget {
                   pageController: PageController(viewportFraction: 0.8),
                   onRemoveCourse: courseData.removeCourse,
                 ),
+                CourseListWidget(
+                  courses: courseData.courses, 
+                  onRemoveCourse: courseData.removeCourse)
               ],
             ),
           ),

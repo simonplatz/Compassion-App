@@ -1,3 +1,4 @@
+import 'package:compassionapp/backend/database/databaseHelper.dart';
 import 'package:compassionapp/features/courses/courseData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => AppState()),
         ChangeNotifierProvider(create: (context) => CourseData()),
+        Provider(create: (context) => DatabaseHelper()), 
       ],
       child: const MyApp(),
     ),
