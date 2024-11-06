@@ -11,6 +11,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
     final appState = Provider.of<AppState>(context);
 
     return AppBar(
+      backgroundColor: Colors.teal,
       leading: Builder(
         builder: (context) {
           return IconButton(

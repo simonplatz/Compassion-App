@@ -1,14 +1,14 @@
-import 'package:compassionapp/features/courses/courseData.dart';
+import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:flutter/material.dart';
 
 class AppState extends ChangeNotifier {
   int _selectedIndex = 0;
   Locale _locale = const Locale('en');
-  final CourseData _courseData = CourseData();
+  final CourseManager _courseManager = CourseManager();
 
   int get selectedIndex => _selectedIndex;
   Locale get locale => _locale;
-  CourseData get courseData => _courseData;
+  CourseManager get courseManager => _courseManager;
 
   void setSelectedIndex(int index) {
     _selectedIndex = index;

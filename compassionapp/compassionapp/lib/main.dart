@@ -1,5 +1,5 @@
 import 'package:compassionapp/backend/database/databaseHelper.dart';
-import 'package:compassionapp/features/courses/courseData.dart';
+import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'baselayout.dart';
@@ -12,7 +12,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AppState()),
-        ChangeNotifierProvider(create: (context) => CourseData()),
+        ChangeNotifierProvider(create: (context) => CourseManager()),
         Provider(create: (context) => DatabaseHelper()), 
       ],
       child: const MyApp(),

@@ -23,6 +23,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  smooth_page_indicator: ^1.2.0
+  
+  
 
 
   
@@ -31,7 +34,9 @@ flutter:
   assets:
     - assets/lang/dk.json
     - assets/lang/en.json
-    - assets/images/mindfulness.png
-    - assets/images/self_compassion.jpg
-    - assets/images/stress_relief.png
     - assets\images\compassion_focused_therapy.webp
+    - assets\images\contact-self-compassion-background.webp
+    - assets\images\hearths.jpg
+    - assets\images\meditation.webp
+    
+

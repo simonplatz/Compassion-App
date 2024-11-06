@@ -1,4 +1,3 @@
-import 'package:compassionapp/features/courses/courses.dart';
 import 'package:compassionapp/features/journal/journalEntry.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -79,23 +78,4 @@ class DatabaseHelper {
     await db.delete('journal_entries', where: 'id = ?', whereArgs: [id]);
   }
 
-  // course operations
-  Future<void> insertcourse(Course course) async {
-    final db = await database;
-    await db.insert('courses', course.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-  }
-
-  Future<List<Course>> getcourses() async {
-    final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('courses');
-    return List.generate(maps.length, (i) {
-      return Course.fromMap(maps[i]);
-    });
-  }
-
-  Future<void> deletecourse(int id) async {
-    final db = await database;
-    await db.delete('courses', where: 'id = ?', whereArgs: [id]);
-  }
 }

@@ -1,8 +1,10 @@
-class Course {
+import 'package:flutter/material.dart';
+
+abstract class Course {
+  final String id;
   final String title;
   final String description;
   final String imageUrl;
-   final String id;
 
   Course({
     required this.id,
@@ -11,20 +13,5 @@ class Course {
     required this.imageUrl,
   });
 
- Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-    };
-  }
-
-  factory Course.fromMap(Map<String, dynamic> map) {
-    return Course(
-      id: map['id'],
-      title: map['title'],
-      description: map['description'],
-      imageUrl: map['imageUrl'],
-    );
-  }
+  Widget buildContent();
 }

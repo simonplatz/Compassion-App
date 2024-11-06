@@ -16,6 +16,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
   String? _selectedMood;
   final List<String> _moods = ['Happy', 'Sad', 'Angry', 'Excited', 'Calm'];
   final TextEditingController _contentController = TextEditingController();
+  final FocusNode _contentFocusNode = FocusNode();
   JournalEntry? _journalEntry;
 
   @override
@@ -44,6 +45,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
     } else {
       _clearFields();
     }
+    _contentFocusNode.requestFocus();
   }
 
   void _clearFields() {

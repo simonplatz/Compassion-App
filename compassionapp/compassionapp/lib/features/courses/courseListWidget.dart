@@ -4,19 +4,18 @@ import 'package:compassionapp/components/therapy_page.dart';
 
 class CourseListWidget extends StatelessWidget {
   final List<Course> courses;
-  final Function(int) onRemoveCourse;
 
   const CourseListWidget({
     super.key,
     required this.courses,
-    required this.onRemoveCourse,
+
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Scrollbar(
+    child: ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
       itemCount: courses.length,
       itemBuilder: (context, index) {
         return Padding(
@@ -27,7 +26,8 @@ class CourseListWidget extends StatelessWidget {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TherapyPage(courseName: courses[index].title),
+                    builder: (context) =>
+                        TherapyPage(courseName: courses[index].title),
                   ),
                 ),
                 child: Card(
@@ -38,7 +38,8 @@ class CourseListWidget extends StatelessWidget {
                   child: Row(
                     children: [
                       ClipRRect(
-                        borderRadius: const BorderRadius.horizontal(left: Radius.circular(8.0)),
+                        borderRadius: const BorderRadius.horizontal(
+                            left: Radius.circular(8.0)),
                         child: Image.asset(
                           courses[index].imageUrl,
                           fit: BoxFit.cover,
@@ -72,10 +73,6 @@ class CourseListWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () => onRemoveCourse(index),
-                      ),
                     ],
                   ),
                 ),
@@ -84,6 +81,6 @@ class CourseListWidget extends StatelessWidget {
           ),
         );
       },
-    );
+    ));
   }
 }
