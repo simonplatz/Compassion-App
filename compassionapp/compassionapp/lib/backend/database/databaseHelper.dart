@@ -73,6 +73,13 @@ class DatabaseHelper {
     }
   }
 
+  List<JournalEntry> getRecentEntries(List<JournalEntry> entries) {
+    final now = DateTime.now();
+    final fiveDaysAgo = now.subtract(const Duration(days: 5));
+    return entries.where((entry) => entry.date.isAfter(fiveDaysAgo) && entry.date.isBefore(now)).toList();
+  }
+
+
   Future<void> deleteJournalEntry(int id) async {
     final db = await database;
     await db.delete('journal_entries', where: 'id = ?', whereArgs: [id]);

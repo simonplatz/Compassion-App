@@ -1,8 +1,8 @@
-// components/journal_entry_page.dart
 import 'package:compassionapp/backend/database/databaseHelper.dart';
 import 'package:compassionapp/features/journal/journalEntry.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 
 class JournalEntryBox extends StatefulWidget {
   final DateTime date;
@@ -13,8 +13,14 @@ class JournalEntryBox extends StatefulWidget {
 }
 
 class _JournalEntryBoxState extends State<JournalEntryBox> {
-  String? _selectedMood;
-  final List<String> _moods = ['Happy', 'Sad', 'Angry', 'Excited', 'Calm'];
+  double _moodValue = 0;
+  final List<Map<String, String>> _moods = [
+    {'emoji': '😃', 'label': 'Excited'},
+    {'emoji': '😊', 'label': 'Happy'},
+    {'emoji': '😌', 'label': 'Calm'},
+    {'emoji': '😢', 'label': 'Sad'},
+    {'emoji': '😡', 'label': 'Angry'},
+  ];
   final TextEditingController _contentController = TextEditingController();
   final FocusNode _contentFocusNode = FocusNode();
   JournalEntry? _journalEntry;
@@ -40,7 +46,9 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
       setState(() {
         _journalEntry = entry;
         _contentController.text = _journalEntry!.content;
-        _selectedMood = _moods.contains(_journalEntry!.mood) ? _journalEntry!.mood : null;
+        final moodIndex =
+            _moods.indexWhere((mood) => mood['label'] == _journalEntry!.mood);
+        _moodValue = moodIndex != -1 ? moodIndex.toDouble() : 0.0;
       });
     } else {
       _clearFields();
@@ -51,7 +59,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
   void _clearFields() {
     _contentController.clear();
     setState(() {
-      _selectedMood = null;
+      _moodValue = 0;
       _journalEntry = null;
     });
   }
@@ -59,7 +67,6 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
   @override
   Widget build(BuildContext context) {
     final dbHelper = Provider.of<DatabaseHelper>(context);
-
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -68,26 +75,51 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
             'Journal Entry - ${widget.date.day}/${widget.date.month}/${widget.date.year}',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
-          DropdownButtonFormField<String>(
-            decoration: const InputDecoration(
-              labelText: 'Select your mood',
-              border: OutlineInputBorder(),
+          const SizedBox(height: 2),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                _moods[_moodValue.toInt()]['emoji']!,
+                style: const TextStyle(fontSize: 24),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                _moods[_moodValue.toInt()]['label']!,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+          FlutterSlider(
+            values: [_moodValue],
+            max: (_moods.length - 1).toDouble(),
+            min: 0,
+            step: FlutterSliderStep(step: 1),
+            handler: FlutterSliderHandler(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                  shape: BoxShape.circle,
+                ),
+                child: Text(
+                  _moods[_moodValue.toInt()]['emoji']!,
+                  style: const TextStyle(fontSize: 24),
+                ),
+              ),
             ),
-            value: _selectedMood,
-            items: _moods.map((String mood) {
-              return DropdownMenuItem<String>(
-                value: mood,
-                child: Text(mood),
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
+            trackBar: FlutterSliderTrackBar(
+              activeTrackBar: BoxDecoration(color: Colors.teal),
+              inactiveTrackBar: BoxDecoration(color: Colors.teal.shade100),
+            ),
+            tooltip: FlutterSliderTooltip(
+              disabled: true, 
+            ),
+            onDragging: (handlerIndex, lowerValue, upperValue) {
               setState(() {
-                _selectedMood = newValue;
+                _moodValue = lowerValue;
               });
             },
           ),
-          const SizedBox(height: 10),
           TextField(
             controller: _contentController,
             decoration: const InputDecoration(
@@ -96,14 +128,13 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
             ),
             maxLines: 5,
           ),
-          const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () async {
               final newEntry = JournalEntry(
                 id: _journalEntry?.id,
                 content: _contentController.text,
                 date: widget.date,
-                mood: _selectedMood ?? 'Null',
+                mood: _moods[_moodValue.toInt()]['label']!,
               );
               await dbHelper.insertJournalEntry(newEntry);
               ScaffoldMessenger.of(context).showSnackBar(

@@ -21,7 +21,7 @@ class StyledCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: margin ?? const EdgeInsets.all(16.0),
+      margin: margin ?? const EdgeInsets.all(4.0),
       shape: shape ??
           RoundedRectangleBorder(
             borderRadius: borderRadius ?? BorderRadius.circular(30.0),
