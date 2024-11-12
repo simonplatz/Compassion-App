@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class CourseCard extends StatelessWidget {
   final Course course;
 
-
   const CourseCard({super.key, required this.course});
 
   @override
@@ -28,7 +27,8 @@ class CourseCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(8.0)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(8.0)),
               child: Image.asset(
                 course.imageUrl,
                 fit: BoxFit.cover,
@@ -53,6 +53,28 @@ class CourseCard extends StatelessWidget {
                     course.description,
                     style: const TextStyle(
                       fontSize: 16.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              decoration: const BoxDecoration(
+                color: Colors.teal,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(8.0)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'Click to view course',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],

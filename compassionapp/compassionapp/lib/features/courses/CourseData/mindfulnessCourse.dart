@@ -13,7 +13,7 @@ class MindfulnessCourse extends Course {
 
   @override
   Widget buildContent() {
-    return MindfulnessCourseContent();
+    return const MindfulnessCourseContent();
   }
 }
 
@@ -28,63 +28,111 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
+  static const double arrowIconSize = 24.0;
+  static const double arrowPositionOffset = 40.0;
+  static const double arrowEdgePosition = -15.0;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 600, // Set a fixed height for the PageView
-          child: PageView.builder(
-            controller: _pageController,
-            onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
-            },
-            itemCount: 4, // Updated to 4 pages
-            itemBuilder: (context, index) {
-              switch (index) {
-                case 0:
-                  return _buildPage1();
-                case 1:
-                  return _buildPage2();
-                case 2:
-                  return _buildPage3();
-                case 3:
-                  return _buildWrappingUpPage(); 
-                default:
-                  return Container();
-              }
-            },
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 1.4,
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    switch (index) {
+                      case 0:
+                        return _buildPage(
+                          title: 'Hvad er mindfulness?',
+                          content: 'Mindfulness er en praksis, hvor man er opmærksom på nuet uden at dømme. Det hjælper med at reducere stress og forbedre mental klarhed.',
+                          additionalContent: 'Hvorfor bruge mindfulness? Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
+                        );
+                      case 1:
+                        return _buildPage(
+                          title: 'Fordele ved mindfulness:',
+                          content: 'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
+                        );
+                      case 2:
+                        return _buildPage(
+                          title: 'Mindfulness teknikker inkluderer:',
+                          content: '1. Åndedrætsøvelser: Fokus på vejrtrækningen for at bringe opmærksomheden til nuet.\n2. Kropsscanning: En teknik, hvor man systematisk fokuserer på forskellige dele af kroppen for at blive opmærksom på spændinger og afslapning.\n3. Mindful gåtur: At gå langsomt og bevidst, mens man er opmærksom på hvert skridt og omgivelserne.',
+                        );
+                      case 3:
+                        return _buildFinalPage();
+                      default:
+                        return Container();
+                    }
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SmoothPageIndicator(
+                  controller: _pageController,
+                  count: 4,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Colors.teal,
+                    dotColor: Colors.black,
+                    dotHeight: 12.0,
+                    dotWidth: 10.0,
+                    expansionFactor: 4,
+                    spacing: 4.0,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Swipe left to see more (${4 - _currentPage - 1} pages left)',
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+            ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SmoothPageIndicator(
-            controller: _pageController,
-            count: 4,
-            effect: ExpandingDotsEffect(
-              activeDotColor: Colors.teal,
-              dotColor: Colors.black,
-              dotHeight: 12.0,
-              dotWidth: 10.0,
-              expansionFactor: 4,
-              spacing: 4.0,
+          if (_currentPage > 0)
+            Positioned(
+              left: arrowEdgePosition,
+              top: MediaQuery.of(context).size.height / 2 - arrowPositionOffset,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, size: arrowIconSize),
+                onPressed: () {
+                  _pageController.previousPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                },
+              ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Swipe left to see more (${4 - _currentPage - 1} pages left)',
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
-      ],
+          if (_currentPage < 3)
+            Positioned(
+              right: arrowEdgePosition,
+              top: MediaQuery.of(context).size.height / 2 - arrowPositionOffset,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_forward, size: arrowIconSize),
+                onPressed: () {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                },
+              ),
+            ),
+        ],
+      ),
     );
   }
 
-  Widget _buildPage1() {
+  Widget _buildPage({required String title, required String content, String? additionalContent}) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -94,87 +142,28 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
             Image.asset('assets/images/meditation.webp'),
             const SizedBox(height: 20),
             Text(
-              'Lær omkring mindfulness.',
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              content,
               style: const TextStyle(fontSize: 16),
             ),
-            const SizedBox(height: 20),
-            const Text(
-              'Hvad er mindfulness?',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Mindfulness er en praksis, hvor man er opmærksom på nuet uden at dømme. Det hjælper med at reducere stress og forbedre mental klarhed.',
-              style: TextStyle(fontSize: 16),
-            ),
+            if (additionalContent != null) ...[
+              const SizedBox(height: 20),
+              Text(
+                additionalContent,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPage2() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Mindfulness teknikker inkluderer:',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              '1. Åndedrætsøvelser: Fokus på vejrtrækningen for at bringe opmærksomheden til nuet.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              '2. Kropsscanning: En teknik, hvor man systematisk fokuserer på forskellige dele af kroppen for at blive opmærksom på spændinger og afslapning.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              '3. Mindful gåtur: At gå langsomt og bevidst, mens man er opmærksom på hvert skridt og omgivelserne.',
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPage3() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Fordele ved mindfulness:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
-              style: TextStyle(fontSize: 16),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildWrappingUpPage() {
+  Widget _buildFinalPage() {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -17,7 +17,7 @@ class CoursesPage extends StatelessWidget {
               SliverAppBar(
                 floating: true,
                 pinned: true,
-                expandedHeight: 60.0,
+                expandedHeight: 70.0,
                 bottom: AppBar(
                   title: Padding(
                     padding: const EdgeInsets.all(2.0),
