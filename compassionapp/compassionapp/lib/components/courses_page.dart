@@ -1,8 +1,9 @@
-import 'package:compassionapp/features/courses/courseListWidget.dart';
-import 'package:compassionapp/features/courses/courseManager.dart';
-import 'package:compassionapp/features/courses/course_list.dart';
+import 'package:compassionapp/components/QuestionnairePage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:compassionapp/features/courses/courseManager.dart';
+import 'package:compassionapp/features/courses/courseListWidget.dart';
+import 'package:compassionapp/features/courses/course_list.dart';
 
 class CoursesPage extends StatelessWidget {
   const CoursesPage({super.key});
@@ -12,6 +13,22 @@ class CoursesPage extends StatelessWidget {
     return Consumer<CourseManager>(
       builder: (context, courseManager, child) {
         return Scaffold(
+          appBar: AppBar(
+            title: const Text('Courses'),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.question_answer),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QuestionnairePage(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -33,7 +50,6 @@ class CoursesPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                
               ),
               SliverList(
                 delegate: SliverChildListDelegate(
@@ -41,7 +57,6 @@ class CoursesPage extends StatelessWidget {
                     CourseList(
                       courses: courseManager.courses,
                       pageController: PageController(viewportFraction: 0.8),
-                      onRemoveCourse: courseManager.removeCourse,
                     ),
                     const Padding(
                       padding: EdgeInsets.all(16.0),

@@ -5,13 +5,11 @@ import 'course_card.dart';
 class CourseList extends StatelessWidget {
   final List<Course> courses;
   final PageController pageController;
-  final Function(int) onRemoveCourse;
 
   const CourseList({
     super.key,
     required this.courses,
     required this.pageController,
-    required this.onRemoveCourse,
   });
 
   @override

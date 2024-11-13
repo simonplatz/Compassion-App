@@ -1,9 +1,7 @@
-// components/journal_page.dart
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:compassionapp/styling_component/styling_comp.dart';
-
-import '../components_modules/journal_entry_page.dart'; // Import the StyledCard widget
+import '../components_modules/journalEntryBox.dart'; // Import the StyledCard widget
 
 class JournalPage extends StatefulWidget {
   const JournalPage({super.key});
@@ -18,7 +16,6 @@ class _JournalPageState extends State<JournalPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Column(
         children: [
@@ -26,6 +23,17 @@ class _JournalPageState extends State<JournalPage> {
             child: TableCalendar(
               firstDay: DateTime.utc(2000, 1, 1),
               lastDay: DateTime.utc(2100, 12, 31),
+              calendarStyle: CalendarStyle(
+                selectedDecoration: BoxDecoration(
+                  color: Colors.teal,
+                  shape: BoxShape.circle,
+                ),
+                todayDecoration: BoxDecoration(
+                  color: Colors.teal.shade100,
+                  shape: BoxShape.circle,
+                ),
+                markersMaxCount: 1,
+              ),
               focusedDay: _focusedDay,
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
@@ -51,8 +59,12 @@ class _JournalPageState extends State<JournalPage> {
             ),
           ),
           if (_selectedDay != null)
-            StyledCard(
-              child: JournalEntryBox(date: _selectedDay!),
+            Expanded(
+              child: StyledCard(
+                child: SingleChildScrollView(
+                  child: JournalEntryBox(date: _selectedDay!),
+                ),
+              ),
             ),
         ],
       ),

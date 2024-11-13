@@ -15,11 +15,11 @@ class JournalEntryBox extends StatefulWidget {
 class _JournalEntryBoxState extends State<JournalEntryBox> {
   double _moodValue = 0;
   final List<Map<String, String>> _moods = [
-    {'emoji': '😃', 'label': 'Excited'},
-    {'emoji': '😊', 'label': 'Happy'},
-    {'emoji': '😌', 'label': 'Calm'},
-    {'emoji': '😢', 'label': 'Sad'},
-    {'emoji': '😡', 'label': 'Angry'},
+    {'label': 'Very Bad', 'emoji': '😢'},
+    {'label': 'Bad', 'emoji': '😟'},
+    {'label': 'Neutral', 'emoji': '😐'},
+    {'label': 'Good', 'emoji': '😊'},
+    {'label': 'Very Good', 'emoji': '😁'},
   ];
   final TextEditingController _contentController = TextEditingController();
   final FocusNode _contentFocusNode = FocusNode();
@@ -66,44 +66,35 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
 
   @override
   Widget build(BuildContext context) {
-    final dbHelper = Provider.of<DatabaseHelper>(context);
-    return SingleChildScrollView(
+    final dbHelper = DatabaseHelper();
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Journal Entry - ${widget.date.day}/${widget.date.month}/${widget.date.year}',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 2),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _moods[_moodValue.toInt()]['emoji']!,
-                style: const TextStyle(fontSize: 24),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                _moods[_moodValue.toInt()]['label']!,
-                style: const TextStyle(fontSize: 18),
-              ),
-            ],
+            'How do you feel today? ${_moods[_moodValue.toInt()]['emoji']!}',
+            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
           FlutterSlider(
             values: [_moodValue],
-            max: (_moods.length - 1).toDouble(),
+            max: 4,
             min: 0,
-            step: FlutterSliderStep(step: 1),
+            step: const FlutterSliderStep(step: 1),
             handler: FlutterSliderHandler(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.teal,
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  _moods[_moodValue.toInt()]['emoji']!,
-                  style: const TextStyle(fontSize: 24),
+              decoration: const BoxDecoration(),
+              child: Material(
+                type: MaterialType.circle,
+                color: Colors.teal,
+                elevation: 3,
+                child: Container(
+                  padding: const EdgeInsets.all(1),
+                  child: const Icon(
+                    Icons.circle,
+                    size: 20,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -112,7 +103,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
               inactiveTrackBar: BoxDecoration(color: Colors.teal.shade100),
             ),
             tooltip: FlutterSliderTooltip(
-              disabled: true, 
+              disabled: true,
             ),
             onDragging: (handlerIndex, lowerValue, upperValue) {
               setState(() {
@@ -122,26 +113,43 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
           ),
           TextField(
             controller: _contentController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Write about your day...',
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              filled: true,
+              fillColor: Colors.teal.shade50,
             ),
-            maxLines: 5,
+            maxLines: 7,
           ),
-          ElevatedButton(
-            onPressed: () async {
-              final newEntry = JournalEntry(
-                id: _journalEntry?.id,
-                content: _contentController.text,
-                date: widget.date,
-                mood: _moods[_moodValue.toInt()]['label']!,
-              );
-              await dbHelper.insertJournalEntry(newEntry);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Journal entry saved!')),
-              );
-            },
-            child: const Text('Save Entry'),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.teal,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () async {
+                final newEntry = JournalEntry(
+                  id: _journalEntry?.id,
+                  content: _contentController.text,
+                  date: widget.date,
+                  mood: _moods[_moodValue.toInt()]['label']!,
+                );
+                await dbHelper.insertJournalEntry(newEntry);
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Journal entry saved!')),
+                  );
+                }
+              },
+              child: const Text('Save Entry'),
+            ),
           ),
         ],
       ),
