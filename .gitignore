@@ -1,0 +1,10 @@
+build/
+.idea
+*generated*
+*generated_plugin_registrant*
+/compassionapp/compassionapp/linux/flutter
+/compassionapp/compassionapp/macos/Flutter
+/compassionapp/compassionapp/linux
+/.idea
+
+/.vscode
