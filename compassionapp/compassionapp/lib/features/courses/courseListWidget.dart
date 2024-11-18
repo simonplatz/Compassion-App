@@ -10,6 +10,7 @@ class CourseListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      
       margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.teal, width: 1.0),

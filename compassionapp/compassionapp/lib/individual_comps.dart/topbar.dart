@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../GlobalState/state_component.dart';
+import 'package:compassionapp/GlobalState/state_component.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+
   const TopBar({super.key, required this.title});
 
   @override
@@ -27,7 +28,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: Icon(
-            appState.locale.languageCode == 'en' ? Icons.flag : Icons.flag_circle, 
+            appState.locale.languageCode == 'en' ? Icons.flag : Icons.flag_circle,
           ),
           onPressed: () {
             appState.toggleLanguage();

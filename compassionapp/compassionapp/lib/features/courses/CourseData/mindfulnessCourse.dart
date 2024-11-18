@@ -1,6 +1,7 @@
-import 'package:compassionapp/components/courses_page.dart';
+import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:compassionapp/features/courses/courses.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MindfulnessCourse extends Course {
@@ -8,11 +9,10 @@ class MindfulnessCourse extends Course {
       : super(
           id: '1',
           title: 'Mindfulness',
-          description: 'Lær omkring mindfulness.',
+          description: 'Lær at praktisere mindfulness og opnå mental klarhed og ro.',
           imageUrl: 'assets/images/meditation.webp',
         );
-
-  @override
+    @override
   Widget buildContent() {
     return const MindfulnessCourseContent();
   }
@@ -22,8 +22,7 @@ class MindfulnessCourseContent extends StatefulWidget {
   const MindfulnessCourseContent({super.key});
 
   @override
-  _MindfulnessCourseContentState createState() =>
-      _MindfulnessCourseContentState();
+  _MindfulnessCourseContentState createState() => _MindfulnessCourseContentState();
 }
 
 class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
@@ -35,41 +34,51 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
   static const double arrowPositionOffset = 40.0;
   static const double arrowEdgePosition = -15.0;
 
+  void _onPageChanged(int page) {
+    setState(() {
+      _currentPage = page;
+      if (_currentPage == 3) { // Assuming the last page index is 3
+        _isCourseCompleted = true;
+        final courseManager = Provider.of<CourseManager>(context, listen: false);
+        courseManager.markCourseAsCompleted('Mindfulness');
+      }
+    });
+  }
+
+  Widget _buildPage({required String title, required String content, String? additionalContent}) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/meditation.webp'),
+            const SizedBox(height: 20),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              content,
+              style: const TextStyle(fontSize: 16),
+            ),
+            if (additionalContent != null) ...[
+              const SizedBox(height: 20),
+              Text(
+                additionalContent,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Mindfulness',
-            style: const TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.teal,
-        actions: [
-          if (_isCourseCompleted)
-            Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.orange, // Text color
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CoursesPage(),
-                  ),
-                );
-              },
-              child: Text(
-                'Completed',
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-      ],
-    ),
       body: Stack(
         children: [
           Column(
@@ -78,37 +87,30 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
                 height: MediaQuery.of(context).size.height / 1.4,
                 child: PageView.builder(
                   controller: _pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _currentPage = page;
-                      if (_currentPage == 3) {
-                        _isCourseCompleted = true;
-                      }
-                    });
-                  },
-                  itemCount: 4,
+                  onPageChanged: _onPageChanged,
+                  itemCount: 4, // Assuming there are 4 pages
                   itemBuilder: (context, index) {
                     switch (index) {
                       case 0:
                         return _buildPage(
                           title: 'Hvad er mindfulness?',
-                          content:
-                              'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
+                          content: 'Mindfulness er en praksis, hvor man er opmærksom på nuet uden at dømme. Det hjælper med at reducere stress og forbedre mental klarhed.',
                         );
                       case 1:
                         return _buildPage(
                           title: 'Mindfulness teknikker inkluderer:',
-                          content:
-                              '1. Åndedrætsøvelser: Fokus på vejrtrækningen for at bringe opmærksomheden til nuet.\n2. Kropsscanning: En teknik, hvor man systematisk fokuserer på forskellige dele af kroppen for at blive opmærksom på spændinger og afslapning.\n3. Mindful gåtur: At gå langsomt og bevidst, mens man er opmærksom på hvert skridt og omgivelserne.',
+                          content: '1. Åndedrætsøvelser: Fokus på vejrtrækningen for at bringe opmærksomheden til nuet.\n2. Kropsscanning: En teknik, hvor man systematisk fokuserer på forskellige dele af kroppen for at blive opmærksom på spændinger og afslapning.\n3. Mindful gåtur: At gå langsomt og bevidst, mens man er opmærksom på hvert skridt og omgivelserne.',
                         );
                       case 2:
                         return _buildPage(
                           title: 'Fordele ved mindfulness:',
-                          content:
-                              'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
+                          content: 'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
                         );
                       case 3:
-                        return _buildFinalPage();
+                        return _buildPage(
+                          title: 'Afslutning',
+                          content: 'Tak fordi du deltog i mindfulness kurset. Vi håber, at du har lært noget værdifuldt og kan anvende teknikkerne i din dagligdag.',
+                        );
                       default:
                         return Container();
                     }
@@ -168,70 +170,6 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
               ),
             ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPage(
-      {required String title,
-      required String content,
-      String? additionalContent}) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/meditation.webp'),
-            const SizedBox(height: 20),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              content,
-              style: const TextStyle(fontSize: 16),
-            ),
-            if (additionalContent != null) ...[
-              const SizedBox(height: 20),
-              Text(
-                additionalContent,
-                style: const TextStyle(fontSize: 16),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFinalPage() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Afslutning',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Tak fordi du deltog i mindfulness kurset. Vi håber, at du har lært noget værdifuldt og kan anvende teknikkerne i din dagligdag.',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Navigate back to the previous screen
-              },
-              child: const Text('Tilbage til kurssiden'),
-            ),
-          ],
-        ),
       ),
     );
   }

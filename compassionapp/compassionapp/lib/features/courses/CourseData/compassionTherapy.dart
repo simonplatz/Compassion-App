@@ -1,18 +1,21 @@
+import 'package:compassionapp/components/courses_page.dart';
+import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:compassionapp/features/courses/courses.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CompassionTherapy extends Course {
   CompassionTherapy()
       : super(
-          id: '3',
+          id: '2',
           title: 'Compassion-Fokuseret Terapi',
           description: 'Oplev mulighed for bedre selvværd.',
-          imageUrl: 'assets/images/contact-self-compassion-background.webp',
+          imageUrl: 'assets/images/compassion_focused_therapy.webp',
         );
 
   @override
   Widget buildContent() {
-    return CompassionTherapyContent();
+    return const CompassionTherapyContent();
   }
 }
 
@@ -50,6 +53,11 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
     setState(() {
       _scrollProgress = (currentScroll / maxScrollExtent) * 100;
     });
+
+    if (_scrollProgress == 100) {
+      final courseManager = Provider.of<CourseManager>(context, listen: false);
+      courseManager.markCourseAsCompleted('Compassion-Fokuseret Terapi');
+    }
   }
 
   Widget _buildProgressBar() {
@@ -87,7 +95,23 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   ),
                   onPressed: () {
-                    // TODO: Handle button press
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Tak for dit svar!'),
+                          content: const Text('Gå videre til næste kursus.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Text(
                     option,
@@ -104,6 +128,8 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
 
   @override
   Widget build(BuildContext context) {
+    final courseManager = Provider.of<CourseManager>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -148,20 +174,6 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                       const Padding(
                         padding: EdgeInsets.all(16.0),
                         child: Text(
-                          'CFT anvendes ofte til personer med symptomer på depression, angst og stress og kan give værktøjer til at bryde den onde cirkel af skam og selvkritik, der ofte forstærker de psykiske problemer.',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'Hvad kan du opnå?',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
                           'Mindfulness og visualisering: Mange CFT-teknikker inkluderer mindfulness og visualisering, hvor du træner evnen til at være til stede i nuet og på at visualisere en medfølende figur (f.eks. en person eller en del af dig selv), som kan give støtte og opmuntring.',
                           style: TextStyle(fontSize: 16),
                         ),
@@ -174,7 +186,7 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                       _buildInteractiveElement(
+                      _buildInteractiveElement(
                         'Hvordan føler du dig efter at have læst dette afsnit?',
                         ['Glad', 'Neutral', 'Trist', 'Forvirret'],
                       ),
