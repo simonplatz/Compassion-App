@@ -1,3 +1,4 @@
+import 'package:compassionapp/components/courses_page.dart';
 import 'package:compassionapp/features/courses/courses.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -21,12 +22,14 @@ class MindfulnessCourseContent extends StatefulWidget {
   const MindfulnessCourseContent({super.key});
 
   @override
-  _MindfulnessCourseContentState createState() => _MindfulnessCourseContentState();
+  _MindfulnessCourseContentState createState() =>
+      _MindfulnessCourseContentState();
 }
 
 class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  bool _isCourseCompleted = false;
 
   static const double arrowIconSize = 24.0;
   static const double arrowPositionOffset = 40.0;
@@ -35,6 +38,38 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Mindfulness',
+            style: const TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.teal,
+        actions: [
+          if (_isCourseCompleted)
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.orange, // Text color
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CoursesPage(),
+                  ),
+                );
+              },
+              child: Text(
+                'Completed',
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+      ],
+    ),
       body: Stack(
         children: [
           Column(
@@ -46,6 +81,9 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
                   onPageChanged: (int page) {
                     setState(() {
                       _currentPage = page;
+                      if (_currentPage == 3) {
+                        _isCourseCompleted = true;
+                      }
                     });
                   },
                   itemCount: 4,
@@ -54,18 +92,20 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
                       case 0:
                         return _buildPage(
                           title: 'Hvad er mindfulness?',
-                          content: 'Mindfulness er en praksis, hvor man er opmærksom på nuet uden at dømme. Det hjælper med at reducere stress og forbedre mental klarhed.',
-                          additionalContent: 'Hvorfor bruge mindfulness? Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
+                          content:
+                              'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
                         );
                       case 1:
                         return _buildPage(
-                          title: 'Fordele ved mindfulness:',
-                          content: 'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
+                          title: 'Mindfulness teknikker inkluderer:',
+                          content:
+                              '1. Åndedrætsøvelser: Fokus på vejrtrækningen for at bringe opmærksomheden til nuet.\n2. Kropsscanning: En teknik, hvor man systematisk fokuserer på forskellige dele af kroppen for at blive opmærksom på spændinger og afslapning.\n3. Mindful gåtur: At gå langsomt og bevidst, mens man er opmærksom på hvert skridt og omgivelserne.',
                         );
                       case 2:
                         return _buildPage(
-                          title: 'Mindfulness teknikker inkluderer:',
-                          content: '1. Åndedrætsøvelser: Fokus på vejrtrækningen for at bringe opmærksomheden til nuet.\n2. Kropsscanning: En teknik, hvor man systematisk fokuserer på forskellige dele af kroppen for at blive opmærksom på spændinger og afslapning.\n3. Mindful gåtur: At gå langsomt og bevidst, mens man er opmærksom på hvert skridt og omgivelserne.',
+                          title: 'Fordele ved mindfulness:',
+                          content:
+                              'Mindfulness kan hjælpe med at reducere stress, forbedre koncentration og øge følelsesmæssig regulering. Ved at praktisere mindfulness regelmæssigt kan man opleve en større følelse af ro og velvære.',
                         );
                       case 3:
                         return _buildFinalPage();
@@ -132,7 +172,10 @@ class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
     );
   }
 
-  Widget _buildPage({required String title, required String content, String? additionalContent}) {
+  Widget _buildPage(
+      {required String title,
+      required String content,
+      String? additionalContent}) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),

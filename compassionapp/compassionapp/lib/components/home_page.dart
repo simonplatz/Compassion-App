@@ -4,6 +4,7 @@ import 'package:compassionapp/features/courses/courseListWidget.dart';
 import 'package:compassionapp/features/journal/journalEntry.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:compassionapp/GlobalState/state_component.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,6 +13,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final courseManager = Provider.of<CourseManager>(context);
     final dbHelper = Provider.of<DatabaseHelper>(context);
+    final appState = Provider.of<AppState>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -19,7 +22,7 @@ class HomePage extends StatelessWidget {
             CourseListWidget(
               courses: courseManager.courses,
             ),
-                 FutureBuilder<List<JournalEntry>>(
+            FutureBuilder<List<JournalEntry>>(
               future: dbHelper.getJournalEntries(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -30,7 +33,8 @@ class HomePage extends StatelessWidget {
                   return const Center(child: Text('No journal entries found.'));
                 } else {
                   final journalEntries = snapshot.data!;
-                  final recentEntries = dbHelper.getRecentEntries(journalEntries);
+                  final recentEntries =
+                      dbHelper.getRecentEntries(journalEntries);
                   recentEntries.sort((a, b) => a.date.compareTo(b.date));
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -39,7 +43,8 @@ class HomePage extends StatelessWidget {
                       children: [
                         const Text(
                           'Previous Moods',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 10),
                         Container(
@@ -64,7 +69,8 @@ class HomePage extends StatelessWidget {
                                         _getMoodEmoji(entry.mood),
                                         style: const TextStyle(fontSize: 40),
                                       ),
-                                      Text(entry.mood, style: const TextStyle(fontSize: 16)),
+                                      Text(entry.mood,
+                                          style: const TextStyle(fontSize: 16)),
                                     ],
                                   ),
                                 );
@@ -78,7 +84,29 @@ class HomePage extends StatelessWidget {
                 }
               },
             ),
-            // Add other widgets here if needed
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: ElevatedButton.icon(
+              onPressed: () {
+                appState.navigateToJournal(DateTime.now());
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              icon: const Text('😊'),
+              label: const Expanded(
+                child: Center(
+                child: Text('Gå til Journal og Vælg Humør'),
+                ),
+              ),
+              ),
+            ),
           ],
         ),
       ),
@@ -86,19 +114,19 @@ class HomePage extends StatelessWidget {
   }
 }
 
-  String _getMoodEmoji(String mood) {
-    switch (mood) {
-      case 'Excited':
-        return '😃';
-      case 'Happy':
-        return '😊';
-      case 'Calm':
-        return '😌';
-      case 'Sad':
-        return '😢';
-      case 'Angry':
-        return '😡';
-      default:
-        return '😶';
-    }
+String _getMoodEmoji(String mood) {
+  switch (mood) {
+    case 'Excited':
+      return '😃';
+    case 'Happy':
+      return '😊';
+    case 'Neutral':
+      return '😐';
+    case 'Sad':
+      return '😢';
+    case 'Angry':
+      return '😠';
+    default:
+      return '😶';
   }
+}
