@@ -1,28 +1,53 @@
-// components/therapy_page.dart
+import 'package:compassionapp/GlobalState/state_component.dart';
 import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'courses_page.dart';
 
 class TherapyPage extends StatelessWidget {
   final String courseName;
-
   const TherapyPage({super.key, required this.courseName});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(courseName, style: const TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.teal,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Consumer<CourseManager>(
-          builder: (context, courseManager, child) {
-            return courseManager.getCourseContent(courseName);
-          },
-        ),
-      ),
+    final appState = Provider.of<AppState>(context);
+    return Consumer<CourseManager>(
+      builder: (context, courseManager, child) {
+        final course = courseManager.getCourseByName(courseName);
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.teal,
+            title: Text(courseName, textAlign: TextAlign.center),
+            centerTitle: true,
+            actions: [
+              if (course.completed != null &&
+                  course.completed) // Ensure completed is not null
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Completed'),
+                  ),
+                ),
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: courseManager.getCourseContent(courseName),
+          ),
+        );
+      },
     );
   }
 }

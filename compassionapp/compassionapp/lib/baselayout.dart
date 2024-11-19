@@ -23,9 +23,13 @@ class BaseLayout extends StatelessWidget {
     const PageItem(page: HelpPage(), title: 'Hjælp'),
   ];
 
-  Widget _getPage(int index) {
+  Widget _getPage(int index, DateTime? selectedJournalDate) {
+    if (index == 1 && selectedJournalDate != null) {
+      return JournalPage(selectedDate: selectedJournalDate);
+    }
     return _pageItems[index].page;
   }
+
 
   String _getTitle(int index) {
     return _pageItems[index].title;
@@ -36,8 +40,8 @@ class BaseLayout extends StatelessWidget {
     return Consumer<AppState>(
       builder: (context, appState, child) {
         return Scaffold(
-          appBar: TopBar(title: _getTitle(appState.selectedIndex)), // Use TopBar with dynamic title
-          body: _getPage(appState.selectedIndex),
+          appBar: TopBar(title: _getTitle(appState.selectedIndex)),
+          body: _getPage(appState.selectedIndex, appState.selectedJournalDate),
           drawer: const CustomDrawer(),
           bottomNavigationBar: const BottomNavigation(),
         );

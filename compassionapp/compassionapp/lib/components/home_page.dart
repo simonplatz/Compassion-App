@@ -5,6 +5,7 @@ import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:compassionapp/features/courses/courseListWidget.dart';
 import 'package:compassionapp/features/journal/journalEntry.dart';
 import 'package:provider/provider.dart';
+import 'package:compassionapp/GlobalState/state_component.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -14,13 +15,43 @@ class HomePage extends StatelessWidget {
     final courseManager = Provider.of<CourseManager>(context);
     final dbHelper = Provider.of<DatabaseHelper>(context);
 
+    final appState = Provider.of<AppState>(context);
+
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Text(
-              'Tidligere Kurser',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Courses',
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      appState.setSelectedIndex(2); // Assuming 2 is the index for the CoursesPage
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.teal,
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                    child: const Text('See All'),
+                  ),
+                ],
+              ),
             ),
             CourseListWidget(
               courses: courseManager.courses,
@@ -91,6 +122,26 @@ class HomePage extends StatelessWidget {
                   );
                 }
               },
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  appState.navigateToJournal(DateTime.now());
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.teal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                icon: const Icon(Icons.edit),
+                label: const Text('Go to Journal and Select Mood'),
+              ),
             ),
           ],
         ),

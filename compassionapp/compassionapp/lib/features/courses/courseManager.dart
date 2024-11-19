@@ -1,26 +1,24 @@
+
+import 'package:compassionapp/features/courses/CourseData/CompassionTherapy.dart';
+import 'package:compassionapp/features/courses/CourseData/MindfulnessCourse.dart';
+import 'package:compassionapp/features/courses/CourseData/visualCourse.dart';
+
 import 'package:compassionapp/features/DecisionTree/decisionTreeNode.dart';
 import 'package:compassionapp/features/courses/courses.dart';
+
 import 'package:flutter/material.dart';
-import 'CourseData/CompassionTherapy.dart';
-import 'CourseData/MindfulnessCourse.dart';
-import 'CourseData/VisualCourse.dart';
+import 'courses.dart';
 
 class CourseManager extends ChangeNotifier {
-  final List<Course> _courses = _generateCourses();
-  String _searchQuery = '';
-  final Map<String, bool> _courseVisibility = {
-    'Mindfulness': true,
-    'Compassion-Fokuseret Terapi': true,
-    'Visual Course': true,
-  };
+    final List<Course> _courses = [
+    MindfulnessCourse(),
+    CompassionTherapy(),
+    VisualCourse(),
+  ];
 
-  static List<Course> _generateCourses() {
-    return [
-      MindfulnessCourse(),
-      CompassionTherapy(),
-      VisualCourse(),
-    ];
-  }
+  final Map<String, bool> _courseVisibility = {};
+
+  String _searchQuery = '';
 
 Map<String, int> calculateScores(DecisionTreeNode node, Map<String, String> answers) {
   Map<String, int> scores = {
@@ -48,11 +46,8 @@ Map<String, int> calculateScores(DecisionTreeNode node, Map<String, String> answ
 }
 
   List<Course> get courses => _courses.where((course) {
-        final isVisible = _courseVisibility[course.title] ?? false;
-        final matchesSearchQuery = course.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-            course.description.toLowerCase().contains(_searchQuery.toLowerCase());
-        return isVisible && matchesSearchQuery;
-      }).toList();
+    return _courseVisibility[course.title] ?? true;
+  }).toList();
 
   void updateCourseVisibilityBasedOnAnswers({
     required String goal,
@@ -84,5 +79,15 @@ Map<String, int> calculateScores(DecisionTreeNode node, Map<String, String> answ
   Widget getCourseContent(String courseName) {
     final course = _courses.firstWhere((course) => course.title == courseName);
     return course.buildContent();
+  }
+
+  Course getCourseByName(String courseName) {
+    return _courses.firstWhere((course) => course.title == courseName);
+  }
+
+  void markCourseAsCompleted(String courseName) {
+    final course = _courses.firstWhere((course) => course.title == courseName);
+    course.completed = true;
+    notifyListeners();
   }
 }

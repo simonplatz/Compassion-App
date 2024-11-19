@@ -1,19 +1,22 @@
-import 'package:compassionapp/features/courses/CourseData/visualCourse.dart';
-import 'package:flutter/material.dart';
+
+import 'package:compassionapp/components/courses_page.dart';
+import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:compassionapp/features/courses/courses.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CompassionTherapy extends Course {
   CompassionTherapy()
       : super(
-          id: '3',
+          id: '2',
           title: 'Compassion-Fokuseret Terapi',
           description: 'Oplev mulighed for bedre selvværd.',
-          imageUrl: 'assets/images/contact-self-compassion-background.webp',
+          imageUrl: 'assets/images/compassion_focused_therapy.webp',
         );
 
   @override
   Widget buildContent() {
-    return CompassionTherapyContent();
+    return const CompassionTherapyContent();
   }
 }
 
@@ -124,45 +127,19 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
     );
   }
 
-  Widget _buildUnderstandingSelfCompassionPage() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Forståelse af Selvmedfølelse',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Selvmedfølelse handler om at være venlig og forstående over for sig selv, især i tider med fejl og svigt. Det indebærer at anerkende, at lidelse og personlige mangler er en del af den fælles menneskelige oplevelse.',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Komponenter af selvmedfølelse inkluderer selvvenlighed, fælles menneskelighed og mindfulness. Ved at praktisere disse komponenter kan du udvikle en sundere og mere støttende indre dialog.',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 10),
-            _buildInteractiveElement(
-              'Hvordan føler du dig efter at have læst dette afsnit?',
-              ['Glad', 'Neutral', 'Trist', 'Forvirret'],
-            ),
-            const SizedBox(height: 20),
-            _buildExercise(
-              title: 'Selvmedfølelse Øvelse',
-              description: 'Skriv en venlig og støttende besked til dig selv, som du ville skrive til en god ven.',
-            ),
-          ],
-        ),
-      ),
-    );
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final maxScrollExtent = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    setState(() {
+      _scrollProgress = (currentScroll / maxScrollExtent) * 100;
+    });
+
+    if (_scrollProgress == 100) {
+      final courseManager = Provider.of<CourseManager>(context, listen: false);
+      courseManager.markCourseAsCompleted('Compassion-Fokuseret Terapi');
+    }
   }
 
   Widget _buildDailyLifeCompassionPage() {
@@ -263,7 +240,24 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   ),
                   onPressed: () {
-                    // Handle button press
+
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Tak for dit svar!'),
+                          content: const Text('Gå videre til næste kursus.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Text(
                     option,
@@ -277,6 +271,71 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
       ],
     );
   }
+
+
+  @override
+  Widget build(BuildContext context) {
+    final courseManager = Provider.of<CourseManager>(context);
+
+    return Scaffold(
+      body: Column(
+        children: [
+          _buildProgressBar(),
+          Expanded(
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Image.asset('assets/images/compassion_focused_therapy.webp'),
+                      const SizedBox(height: 20),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Oplev mulighed for bedre selvværd.',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Hvad er compassion-fokuseret terapi?',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Compassion-fokuseret terapi (CFT) er en terapiform, der primært retter sig mod mennesker med lavt selvværd, svære følelser, skam eller vedvarende selvkritik.',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Terapien kombinerer teknikker fra kognitiv adfærdsterapi, mindfulness og buddhistisk medfølelsestræning.',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Mindfulness og visualisering: Mange CFT-teknikker inkluderer mindfulness og visualisering, hvor du træner evnen til at være til stede i nuet og på at visualisere en medfølende figur (f.eks. en person eller en del af dig selv), som kan give støtte og opmuntring.',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Accept af sårbarhed: Et centralt aspekt er at acceptere din menneskelighed og de fejl, man kan begå, som en naturlig del af livet. Det kan hjælpe dig med at udvikle en større tolerance for egne fejl og sårbarheder.',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      _buildInteractiveElement(
+                        'Hvordan føler du dig efter at have læst dette afsnit?',
+                        ['Glad', 'Neutral', 'Trist', 'Forvirret'],
 
   Widget _buildQuiz({required String question, required List<String> options, required String correctAnswer}) {
     return Column(

@@ -4,7 +4,6 @@ import 'package:compassionapp/features/journal/journalEntry.dart';
 import 'package:compassionapp/features/journal/moodManager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_xlider/flutter_xlider.dart';
 
 class JournalEntryBox extends StatefulWidget {
   final DateTime date;
@@ -62,37 +61,21 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
             'How do you feel today? ${MoodManager.moods[_moodValue.toInt()]['emoji']!}',
             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
-          FlutterSlider(
-            values: [_moodValue],
-            max: 4,
-            min: 0,
-            step: const FlutterSliderStep(step: 1),
-            handler: FlutterSliderHandler(
-              decoration: const BoxDecoration(),
-              child: Material(
-                type: MaterialType.circle,
-                color: Colors.teal,
-                elevation: 3,
-                child: Container(
-                  padding: const EdgeInsets.all(1),
-                  child: const Icon(
-                    Icons.circle,
-                    size: 20,
-                    color: Colors.white,
-                  ),
+          DropdownButton<int>(
+            alignment: Alignment.center,
+            value: _moodValue.toInt(),
+            items: List.generate(_moods.length, (index) {
+              return DropdownMenuItem<int>(
+                value: index,
+                child: Text(
+                  '${_moods[index]['emoji']!} ${_moods[index]['label']!}',
+                  style: TextStyle(fontSize: 24.0),
                 ),
-              ),
-            ),
-            trackBar: FlutterSliderTrackBar(
-              activeTrackBar: BoxDecoration(color: Colors.teal),
-              inactiveTrackBar: BoxDecoration(color: Colors.teal.shade100),
-            ),
-            tooltip: FlutterSliderTooltip(
-              disabled: true,
-            ),
-            onDragging: (handlerIndex, lowerValue, upperValue) {
+              );
+            }),
+            onChanged: (int? newValue) {
               setState(() {
-                _moodValue = lowerValue;
+                _moodValue = newValue!.toDouble();
               });
             },
           ),

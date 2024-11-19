@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:compassionapp/styling_component/styling_comp.dart';
-import '../components_modules/journalEntryBox.dart'; // Import the StyledCard widget
+import '../components_modules/journalEntryBox.dart';
 
 class JournalPage extends StatefulWidget {
-  const JournalPage({super.key});
+  final DateTime? selectedDate;
+
+  const JournalPage({super.key, this.selectedDate});
 
   @override
   _JournalPageState createState() => _JournalPageState();
 }
 
 class _JournalPageState extends State<JournalPage> {
-  DateTime _focusedDay = DateTime.now();
+  late DateTime _focusedDay;
   DateTime? _selectedDay;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusedDay = widget.selectedDate ?? DateTime.now();
+    _selectedDay = widget.selectedDate;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +32,6 @@ class _JournalPageState extends State<JournalPage> {
             child: TableCalendar(
               firstDay: DateTime.utc(2000, 1, 1),
               lastDay: DateTime.utc(2100, 12, 31),
-              calendarStyle: CalendarStyle(
-                selectedDecoration: BoxDecoration(
-                  color: Colors.teal,
-                  shape: BoxShape.circle,
-                ),
-                todayDecoration: BoxDecoration(
-                  color: Colors.teal.shade100,
-                  shape: BoxShape.circle,
-                ),
-                markersMaxCount: 1,
-              ),
               focusedDay: _focusedDay,
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
@@ -48,24 +46,20 @@ class _JournalPageState extends State<JournalPage> {
                   _focusedDay = focusedDay;
                 });
               },
-              calendarFormat: CalendarFormat.month,
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
-              headerStyle: HeaderStyle(
-                formatButtonVisible: false,
-                titleCentered: true,
+              calendarStyle: CalendarStyle(
+                selectedDecoration: BoxDecoration(
+                  color: Colors.teal,
+                  shape: BoxShape.circle,
+                ),
+                todayDecoration: BoxDecoration(
+                  color: Colors.teal[100],
+                  shape: BoxShape.circle,
+                ),
               ),
             ),
           ),
           if (_selectedDay != null)
-            Expanded(
-              child: StyledCard(
-                child: SingleChildScrollView(
-                  child: JournalEntryBox(date: _selectedDay!),
-                ),
-              ),
-            ),
+            JournalEntryBox(date: _selectedDay!),
         ],
       ),
     );
