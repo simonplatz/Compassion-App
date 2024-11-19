@@ -14,7 +14,7 @@ class CoursesPage extends StatelessWidget {
       builder: (context, courseManager, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Courses'),
+            title: const Text('Kurser'),
             actions: [
               IconButton(
                 icon: const Icon(Icons.question_answer),

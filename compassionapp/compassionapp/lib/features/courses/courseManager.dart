@@ -1,6 +1,11 @@
+
 import 'package:compassionapp/features/courses/CourseData/CompassionTherapy.dart';
 import 'package:compassionapp/features/courses/CourseData/MindfulnessCourse.dart';
 import 'package:compassionapp/features/courses/CourseData/visualCourse.dart';
+
+import 'package:compassionapp/features/DecisionTree/decisionTreeNode.dart';
+import 'package:compassionapp/features/courses/courses.dart';
+
 import 'package:flutter/material.dart';
 import 'courses.dart';
 
@@ -15,6 +20,31 @@ class CourseManager extends ChangeNotifier {
 
   String _searchQuery = '';
 
+Map<String, int> calculateScores(DecisionTreeNode node, Map<String, String> answers) {
+  Map<String, int> scores = {
+    'Mindfulness': 0,
+    'Compassion-Fokuseret Terapi': 0,
+    'Visual Course': 0,
+  };
+// needs improvement
+  void traverseTree(DecisionTreeNode? currentNode, int currentScore) {
+    if (currentNode == null) return;
+
+    String? answer = answers[currentNode.question];
+    if (answer != null) {
+      currentScore += currentNode.weights[answer] ?? 0;
+      traverseTree(currentNode.children[answer], currentScore);
+    } 
+      scores['Mindfulness'] = (scores['Mindfulness'] ?? 0) + currentScore;
+      scores['Compassion-Fokuseret Terapi'] = (scores['Compassion-Fokuseret Terapi'] ?? 0) + currentScore;
+      scores['Visual Course'] = (scores['Visual Course'] ?? 0) + currentScore;
+    
+  }
+
+  traverseTree(node, 0);
+  return scores;
+}
+
   List<Course> get courses => _courses.where((course) {
     return _courseVisibility[course.title] ?? true;
   }).toList();
@@ -24,24 +54,20 @@ class CourseManager extends ChangeNotifier {
     required String experience,
     required String preference,
   }) {
-    // Example algorithm to determine course visibility based on answers
-    if (goal == 'Reduce Stress' && experience == 'Beginner' && preference == 'Visual') {
-      _courseVisibility['Mindfulness'] = true;
-      _courseVisibility['Compassion-Fokuseret Terapi'] = false;
-      _courseVisibility['Visual Course'] = true;
-    } else if (goal == 'Improve Focus' && experience == 'Intermediate' && preference == 'Auditory') {
-      _courseVisibility['Mindfulness'] = true;
-      _courseVisibility['Compassion-Fokuseret Terapi'] = false;
-      _courseVisibility['Visual Course'] = false;
-    } else if (goal == 'Enhance Compassion' && experience == 'Advanced' && preference == 'Kinesthetic') {
-      _courseVisibility['Mindfulness'] = false;
-      _courseVisibility['Compassion-Fokuseret Terapi'] = true;
-      _courseVisibility['Visual Course'] = false;
-    } else {
-      _courseVisibility['Mindfulness'] = true;
-      _courseVisibility['Compassion-Fokuseret Terapi'] = true;
-      _courseVisibility['Visual Course'] = true;
-    }
+    DecisionTreeNode decisionTree = createDecisionTree();
+    Map<String, String> answers = {
+      'What is your primary goal?': goal,
+      'What is your experience level?': experience,
+      'What is your preferred learning style?': preference,
+    };
+
+    Map<String, int> scores = calculateScores(decisionTree, answers);
+
+    // Set visibility based on scores
+    _courseVisibility['Mindfulness'] = scores['Mindfulness']! > 0;
+    _courseVisibility['Compassion-Fokuseret Terapi'] = scores['Compassion-Fokuseret Terapi']! > 0;
+    _courseVisibility['Visual Course'] = scores['Visual Course']! > 0;
+
     notifyListeners();
   }
 

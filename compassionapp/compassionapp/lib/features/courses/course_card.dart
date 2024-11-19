@@ -70,7 +70,7 @@ class CourseCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
-                    'Click to view course',
+                    'Klik for at se kursus',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16.0,

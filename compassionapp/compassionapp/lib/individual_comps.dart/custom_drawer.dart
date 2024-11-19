@@ -32,7 +32,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.home),
-                  title: const Text('Home'),
+                  title: const Text('Hjem'),
                   onTap: () {
                     appState.setSelectedIndex(0);
                     Navigator.pop(context);
@@ -48,7 +48,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.school),
-                  title: const Text('Courses'),
+                  title: const Text('Kurser'),
                   onTap: () {
                     appState.setSelectedIndex(2);
                     Navigator.pop(context);
@@ -64,7 +64,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.location_on),
-                  title: const Text('Location'),
+                  title: const Text('Lokation'),
                   onTap: () {
                     appState.setSelectedIndex(4);
                     Navigator.pop(context);
@@ -72,7 +72,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.help),
-                  title: const Text('Help'),
+                  title: const Text('Hjælp'),
                   onTap: () {
                     appState.setSelectedIndex(5);
                     Navigator.pop(context);

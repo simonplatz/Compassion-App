@@ -9,7 +9,7 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Start Screen'),
+        title: const Text('Start skærm'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -19,7 +19,7 @@ class StartScreen extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
-          child: const Text('Go to HomePage'),
+          child: const Text('Gå til Hjemmesiden'),
         ),
       ),
     );
