@@ -15,12 +15,12 @@ class BaseLayout extends StatelessWidget {
   BaseLayout({super.key});
 
   final List<PageItem> _pageItems = [
-    const PageItem(page: HomePage(), title: 'Home'),
+    const PageItem(page: HomePage(), title: 'Hjem'),
     const PageItem(page: JournalPage(), title: 'Journal'),
-    const PageItem(page: CoursesPage(), title: 'Courses'),
+    const PageItem(page: CoursesPage(), title: 'Kurser'),
     const PageItem(page: ChatPage(), title: 'Chat'),
-    const PageItem(page: LocationPage(), title: 'Location'),
-    const PageItem(page: HelpPage(), title: 'Help'),
+    const PageItem(page: LocationPage(), title: 'Lokation'),
+    const PageItem(page: HelpPage(), title: 'Hjælp'),
   ];
 
   Widget _getPage(int index) {

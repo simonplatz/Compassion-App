@@ -2,6 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:compassionapp/features/courses/courseManager.dart';
 
+// use a scoring-based system
+
+// algorithms directed graph / DAG - 1
+// Weighted Decision Tree -2
+// Fuzzy Logic System - requires domain knowledge - 4
+// Naive Bayes Classifier - probabiliy based -3
+// Rule-Based System - if and else statements (not scale able) -
+
+
+// in the future define them based previouse answers?
+
+// they should be stored in the database
+
+// some of these require alot of data and use machine learning to this task
+
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
 

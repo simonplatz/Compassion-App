@@ -18,7 +18,7 @@ class BottomNavigation extends StatelessWidget {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home',
+          label: 'Hjem',
           backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
@@ -28,7 +28,7 @@ class BottomNavigation extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.school),
-          label: 'Courses',
+          label: 'Kurser',
           backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
@@ -38,12 +38,12 @@ class BottomNavigation extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.location_on),
-          label: 'Location',
+          label: 'Lokation',
           backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.help),
-          label: 'Help',
+          label: 'Hjælp',
           backgroundColor: Colors.white,
         ),
       ],
