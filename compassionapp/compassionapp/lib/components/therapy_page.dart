@@ -2,7 +2,6 @@ import 'package:compassionapp/GlobalState/state_component.dart';
 import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'courses_page.dart';
 
 class TherapyPage extends StatelessWidget {
   final String courseName;
@@ -36,7 +35,7 @@ class TherapyPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Completed'),
+                    child: const Text('Gennemført'),
                   ),
                 ),
             ],

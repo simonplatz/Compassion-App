@@ -14,7 +14,7 @@ class CoursesPage extends StatelessWidget {
       builder: (context, courseManager, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Kurser'),
+            title: const Text('Courses'),
             actions: [
               IconButton(
                 icon: const Icon(Icons.question_answer),
@@ -55,7 +55,7 @@ class CoursesPage extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     CourseList(
-                      courses: courseManager.courses,
+                      courses: courseManager.filteredCourses,
                       pageController: PageController(viewportFraction: 0.8),
                     ),
                     const Padding(
@@ -63,7 +63,7 @@ class CoursesPage extends StatelessWidget {
                       child: Text('Kursus liste', style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)),
                     ),
                     CourseListWidget(
-                      courses: courseManager.courses,
+                      courses: courseManager.filteredCourses,
                     ),
                   ],
                 ),

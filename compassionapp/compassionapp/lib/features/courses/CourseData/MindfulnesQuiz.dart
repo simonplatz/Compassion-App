@@ -1,6 +1,4 @@
-import 'package:compassionapp/GlobalState/state_component.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MindfulnessQuiz extends StatefulWidget {
   const MindfulnessQuiz({super.key});

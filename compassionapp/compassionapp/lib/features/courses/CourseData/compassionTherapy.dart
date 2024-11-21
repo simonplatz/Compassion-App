@@ -31,7 +31,7 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
   double _scrollProgress = 0.0;
   String? _selectedOption;
 
- @override
+  @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
@@ -82,15 +82,19 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: _selectedOption == option ? Colors.teal.shade700 : Colors.teal,
+                    backgroundColor: _selectedOption == option
+                        ? Colors.teal.shade700
+                        : Colors.teal,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                   ),
                   onPressed: () {
                     setState(() {
                       _selectedOption = option;
+                      _showReflectionDialog();
                     });
                   },
                   child: Text(
@@ -103,6 +107,71 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
           ),
         ),
       ],
+    );
+  }
+  void _showReflectionDialog() {
+    if (_selectedOption == null) return;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String reflectionText = '';
+
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Reflekter over hvad du har lært',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Du valgte: $_selectedOption',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                onChanged: (value) {
+                  reflectionText = value;
+                },
+                decoration: InputDecoration(
+                  hintText: 'Skriv dine tanker her...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                maxLines: 3,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Annuller',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // Handle the reflection text here if needed
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text('Gem'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -125,9 +194,10 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
             if (title.isNotEmpty)
               Text(
                 title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 10.0),
             Text(
               content,
               style: const TextStyle(fontSize: 16),
@@ -138,7 +208,8 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
     );
   }
 
-  Widget _buildNumberedSection(String title, List<String> points, {Color? backgroundColor}) {
+  Widget _buildNumberedSection(String title, List<String> points,
+      {Color? backgroundColor}) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -157,7 +228,8 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
             if (title.isNotEmpty)
               Text(
                 title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             const SizedBox(height: 8.0),
             ...points.asMap().entries.map((entry) {
@@ -170,7 +242,7 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                   style: const TextStyle(fontSize: 16),
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),
@@ -198,15 +270,9 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                   ),
                   child: Column(
                     children: [
-                      Image.asset('assets/images/compassion_focused_therapy.webp'),
+                      Image.asset(
+                          'assets/images/compassion_focused_therapy.webp'),
                       const SizedBox(height: 20),
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'Oplev mulighed for bedre selvværd.',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -217,18 +283,13 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                 ),
                 _buildSection(
                   '',
-                  'Terapien kombinerer teknikker fra kognitiv adfærdsterapi, mindfulness og buddhistisk medfølelsestræning.',
+                  'Terapien kombinerer teknikker fra kognitiv adfærdsterapi, mindfulness og buddhistisk medfølelsestræning. \n \n CFT anvendes ofte til personer med symptomer på depression, angst og stress og kan give værktøjer til at bryde den onde cirkel af skam og selvkritik, der ofte forstærker de psykiske problemer.',
                   backgroundColor: Colors.teal.shade100,
-                ),
-                _buildSection(
-                  '',
-                  'CFT anvendes ofte til personer med symptomer på depression, angst og stress og kan give værktøjer til at bryde den onde cirkel af skam og selvkritik, der ofte forstærker de psykiske problemer.',
-                  backgroundColor: Colors.teal.shade200,
                 ),
                 _buildSection(
                   'Hvad kan du opnå?',
                   'Målet med CFT er at hjælpe mennesker med at udvikle en venligere, mere medfølende indstilling til sig selv og andre.',
-                  backgroundColor: Colors.teal.shade100,
+                  backgroundColor: Colors.teal.shade200,
                 ),
                 _buildSection(
                   '',
@@ -236,12 +297,12 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
                   backgroundColor: Colors.teal.shade200,
                 ),
                 _buildSection(
-                  'Hvad kommer du til at arbejde med?',
+                  '',
                   '',
                   backgroundColor: Colors.teal.shade100,
                 ),
                 _buildNumberedSection(
-                  '',
+                  'Hvad kommer du til at arbejde med?',
                   [
                     'Selvmedfølelse: CFT arbejder med at øge din evne til selvomsorg og selvmedfølelse. Dette involverer at være mere tålmodig, venlig og accepterende over for dig selv, især i vanskelige tider.',
                     'Forståelse af følelser: CFT fokuserer på at udvikle en forståelse af de emotionelle systemer, som styrer vores følelser. Ifølge CFT er vores hjerner biologisk indrettet med forskellige systemer til trussel, drivkraft og ro. Mange oplever, at trusselsystemet ofte aktiveres ved selvkritik, mens ro- og medfølelsessystemerne er underudviklede. Terapien arbejder derfor på at styrke ro- og medfølelsessystemerne.',

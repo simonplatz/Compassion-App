@@ -140,7 +140,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(Icons.edit),
-                label: const Text('Go to Journal and Select Mood'),
+                label: const Text('Gå til Journal og Vælg Humør'),
               ),
             ),
           ],

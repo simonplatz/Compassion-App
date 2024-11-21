@@ -58,7 +58,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'How do you feel today? ${MoodManager.moods[_moodValue.toInt()]['emoji']!}',
+            'Hvordan har du det i dag?',
             style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
           ),
           DropdownButton<int>(
@@ -82,7 +82,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
           TextField(
             controller: _contentController,
             decoration: InputDecoration(
-              labelText: 'Write about your day...',
+              labelText: 'Skriv om din dag...',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
@@ -111,11 +111,11 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
                 await dbHelper.insertJournalEntry(newEntry);
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Journal entry saved!')),
+                    const SnackBar(content: Text('Dagbogsindlæg gemt!')),
                   );
                 }
               },
-              child: const Text('Save Entry'),
+              child: const Text('Gem Indlæg'),
             ),
           ),
         ],

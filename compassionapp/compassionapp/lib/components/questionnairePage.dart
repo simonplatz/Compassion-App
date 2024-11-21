@@ -2,21 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:compassionapp/features/courses/courseManager.dart';
 
-// use a scoring-based system
-
-// algorithms directed graph / DAG - 1
-// Weighted Decision Tree -2
-// Fuzzy Logic System - requires domain knowledge - 4
-// Naive Bayes Classifier - probabiliy based -3
-// Rule-Based System - if and else statements (not scale able) -
-
-
-// in the future define them based previouse answers?
-
-// they should be stored in the database
-
-// some of these require alot of data and use machine learning to this task
-
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
 
@@ -45,7 +30,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Questionnaire'),
+        title: const Text('Spørgeskema'),
         backgroundColor: Colors.teal,
       ),
       body: Container(
@@ -91,8 +76,8 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                             },
                             children: [
                               _buildQuestionPage(
-                                question: 'What is your primary goal?',
-                                options: ['Reduce Stress', 'Improve Focus', 'Enhance Compassion'],
+                                question: 'Hvad er dit primære mål?',
+                                options: ['Reducere stress', 'Forbedre fokus', 'Øge medfølelse'],
                                 groupValue: _goal,
                                 onChanged: (value) {
                                   setState(() {
@@ -101,8 +86,8 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                                 },
                               ),
                               _buildQuestionPage(
-                                question: 'What is your experience level?',
-                                options: ['Beginner', 'Intermediate', 'Advanced'],
+                                question: 'Hvad er dit erfaringsniveau?',
+                                options: ['Begynder', 'Mellem', 'Avanceret'],
                                 groupValue: _experience,
                                 onChanged: (value) {
                                   setState(() {
@@ -111,8 +96,8 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                                 },
                               ),
                               _buildQuestionPage(
-                                question: 'What is your preferred learning style?',
-                                options: ['Visual', 'Auditory', 'Kinesthetic'],
+                                question: 'Hvad er din foretrukne læringsstil?',
+                                options: ['Visuel', 'Auditiv', 'Kinæstetisk'],
                                 groupValue: _preference,
                                 onChanged: (value) {
                                   setState(() {
@@ -137,7 +122,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                               curve: Curves.easeInOut,
                             );
                           },
-                          child: const Text('Previous', style: TextStyle(fontSize: 16)),
+                          child: const Text('Forrige', style: TextStyle(fontSize: 16)),
                         ),
                       ),
                     Positioned(
@@ -162,7 +147,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                             }
                           }
                         },
-                        child: Text(_currentPage < 2 ? 'Next' : 'Submit', style: const TextStyle(fontSize: 16)),
+                        child: Text(_currentPage < 2 ? 'Næste' : 'Indsend', style: const TextStyle(fontSize: 16)),
                       ),
                     ),
                   ],
