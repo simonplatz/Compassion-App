@@ -33,7 +33,7 @@ class CourseCard extends StatelessWidget {
                 course.imageUrl,
                 fit: BoxFit.cover,
                 width: double.infinity,
-                height: 160.0,
+                height: 175.0,
               ),
             ),
             Padding(
@@ -58,6 +58,7 @@ class CourseCard extends StatelessWidget {
                 ],
               ),
             ),
+            const Spacer(),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 8.0),

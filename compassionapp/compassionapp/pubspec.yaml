@@ -18,6 +18,8 @@ dependencies:
     sdk: flutter
   sqflite: ^2.0.0+4
   path: ^1.8.0
+  youtube_player_flutter: ^9.1.1
+  audioplayers: ^6.1.0
   
 
 dev_dependencies:
@@ -39,5 +41,8 @@ flutter:
     - assets\images\contact-self-compassion-background.webp
     - assets\images\hearths.jpg
     - assets\images\meditation.webp
+    - assets\soundClips\Meditation_1_5_min_meditation.m4a
+    - assets\soundClips\Oevelse_1_Angst_og_svaere_feolelser.m4a
+    - assets\soundClips\compassion_background_app_ready.png
     
 

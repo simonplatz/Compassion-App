@@ -17,7 +17,7 @@ class CourseList extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 300, // Set a fixed height for the PageView
+          height: 340, // Set a fixed height for the PageView
           child: PageView.builder(
             padEnds: false,
             allowImplicitScrolling: true,

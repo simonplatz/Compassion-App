@@ -1,11 +1,11 @@
 
 import 'package:compassionapp/features/courses/CourseData/CompassionTherapy.dart';
 import 'package:compassionapp/features/courses/CourseData/MindfulnessCourse.dart';
-import 'package:compassionapp/features/courses/CourseData/visualCourse.dart';
 
 import 'package:compassionapp/features/DecisionTree/decisionTreeNode.dart';
 import 'package:compassionapp/features/courses/courses.dart';
 
+import 'package:compassionapp/features/courses/CourseData/compassion_journey.dart';
 import 'package:flutter/material.dart';
 import 'courses.dart';
 
@@ -13,7 +13,8 @@ class CourseManager extends ChangeNotifier {
     final List<Course> _courses = [
     MindfulnessCourse(),
     CompassionTherapy(),
-    VisualCourse(),
+    CompassionJourney(),
+    CompassionJourney(),
   ];
 
   final Map<String, bool> _courseVisibility = {};
@@ -68,6 +69,24 @@ Map<String, int> calculateScores(DecisionTreeNode node, Map<String, String> answ
     _courseVisibility['Compassion-Fokuseret Terapi'] = scores['Compassion-Fokuseret Terapi']! > 0;
     _courseVisibility['Visual Course'] = scores['Visual Course']! > 0;
 
+    // Example algorithm to determine course visibility based on answers
+    if (goal == 'Reduce Stress' && experience == 'Beginner' && preference == 'Visual') {
+      _courseVisibility[MindfulnessCourse().title] = true;
+      _courseVisibility[CompassionTherapy().title] = false;
+      _courseVisibility[CompassionJourney().title] = true;
+    } else if (goal == 'Improve Focus' && experience == 'Intermediate' && preference == 'Auditory') {
+      _courseVisibility[MindfulnessCourse().title] = true;
+      _courseVisibility[CompassionTherapy().title] = false;
+      _courseVisibility[CompassionJourney().title] = false;
+    } else if (goal == 'Enhance Compassion' && experience == 'Advanced' && preference == 'Kinesthetic') {
+      _courseVisibility[MindfulnessCourse().title] = false;
+      _courseVisibility[CompassionTherapy().title] = true;
+      _courseVisibility[CompassionJourney().title] = false;
+    } else {
+      _courseVisibility[MindfulnessCourse().title] = true;
+      _courseVisibility[CompassionTherapy().title] = true;
+      _courseVisibility[CompassionJourney().title] = true;
+    }
     notifyListeners();
   }
 

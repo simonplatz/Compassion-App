@@ -64,11 +64,11 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
           DropdownButton<int>(
             alignment: Alignment.center,
             value: _moodValue.toInt(),
-            items: List.generate(_moods.length, (index) {
+            items: List.generate(MoodManager.moods.length, (index) {
               return DropdownMenuItem<int>(
                 value: index,
                 child: Text(
-                  '${_moods[index]['emoji']!} ${_moods[index]['label']!}',
+                  '${MoodManager.moods[index]['emoji']} ${MoodManager.moods[index]['label']}',
                   style: TextStyle(fontSize: 24.0),
                 ),
               );

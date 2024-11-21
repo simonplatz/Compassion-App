@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Courses',
+                    'Kurser',
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    child: const Text('See All'),
+                    child: const Text('Se alle'),
                   ),
                 ],
               ),

@@ -20,8 +20,7 @@ class TherapyPage extends StatelessWidget {
             title: Text(courseName, textAlign: TextAlign.center),
             centerTitle: true,
             actions: [
-              if (course.completed != null &&
-                  course.completed) // Ensure completed is not null
+              if (course.completed) // Ensure completed is not null
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ElevatedButton(
@@ -43,7 +42,7 @@ class TherapyPage extends StatelessWidget {
             ],
           ),
           body: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(0),
             child: courseManager.getCourseContent(courseName),
           ),
         );
