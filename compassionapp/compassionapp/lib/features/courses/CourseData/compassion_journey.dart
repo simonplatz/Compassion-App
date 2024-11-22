@@ -426,8 +426,8 @@ class _CompassionJourneyContentState extends State<CompassionJourneyContent>
               Navigator.pop(context);
             },
             backgroundColor: Colors.teal,
-            child: Icon(Icons.arrow_back, color: Colors.white),
             tooltip: 'Tilbage',
+            child: Icon(Icons.arrow_back, color: Colors.white),
           ),
         ),
       ],
