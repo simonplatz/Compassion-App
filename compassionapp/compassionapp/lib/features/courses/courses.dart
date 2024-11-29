@@ -1,3 +1,6 @@
+import 'package:compassionapp/features/courses/CourseData/compassionTherapy.dart';
+import 'package:compassionapp/features/courses/CourseData/compassion_journey.dart';
+import 'package:compassionapp/features/courses/CourseData/mindfulnessCourse.dart';
 import 'package:flutter/material.dart';
 
 abstract class Course {
@@ -16,4 +19,12 @@ abstract class Course {
   });
 
   Widget buildContent();
+
+  static List<Course> getCourses() {return courses;}
 }
+
+final List<Course> courses = [
+  MindfulnessCourse(),
+  CompassionTherapy(),
+  CompassionJourney(),
+];

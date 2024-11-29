@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../GlobalState/state_component.dart';
+import 'package:compassionapp/features/page/pageItem.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -30,54 +31,18 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.home),
-                  title: const Text('Hjem'),
-                  onTap: () {
-                    appState.setSelectedIndex(0);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.book),
-                  title: const Text('Journal'),
-                  onTap: () {
-                    appState.setSelectedIndex(1);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.school),
-                  title: const Text('Kurser'),
-                  onTap: () {
-                    appState.setSelectedIndex(2);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.chat),
-                  title: const Text('Chat'),
-                  onTap: () {
-                    appState.setSelectedIndex(3);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.location_on),
-                  title: const Text('Lokation'),
-                  onTap: () {
-                    appState.setSelectedIndex(4);
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.help),
-                  title: const Text('Hjælp'),
-                  onTap: () {
-                    appState.setSelectedIndex(5);
-                    Navigator.pop(context);
-                  },
-                ),
+                ...pageItems.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  PageItem pageItem = entry.value;
+                  return ListTile(
+                    leading: pageItem.icon,
+                    title: Text(pageItem.title),
+                    onTap: () {
+                      appState.setSelectedIndex(index);
+                      Navigator.pop(context);
+                    },
+                  );
+                })
               ],
             ),
           ),

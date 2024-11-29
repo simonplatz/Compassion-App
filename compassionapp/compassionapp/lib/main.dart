@@ -1,19 +1,22 @@
-import 'package:compassionapp/backend/database/databaseHelper.dart';
 import 'package:compassionapp/features/courses/courseManager.dart';
+import 'package:compassionapp/services/visisbility_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'baselayout.dart';
 import 'GlobalState/state_component.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'backend/database/databaseHelper.dart';
 import 'components/localisation/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AppState()),
+        ChangeNotifierProvider(create: (context) => VisibilityManager()),
         ChangeNotifierProvider(create: (context) => CourseManager()),
-        Provider(create: (context) => DatabaseHelper()), 
+        Provider(create: (context) => DatabaseHelper()),
       ],
       child: const MyApp(),
     ),

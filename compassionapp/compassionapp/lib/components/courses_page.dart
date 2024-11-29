@@ -1,4 +1,5 @@
 import 'package:compassionapp/components/QuestionnairePage.dart';
+import 'package:compassionapp/services/visisbility_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:compassionapp/features/courses/courseManager.dart';
@@ -10,8 +11,8 @@ class CoursesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CourseManager>(
-      builder: (context, courseManager, child) {
+    return Consumer2<CourseManager, VisibilityManager>(
+      builder: (context, courseManager, visibilityManager, child) {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Courses'),
@@ -55,7 +56,9 @@ class CoursesPage extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     CourseList(
-                      courses: courseManager.filteredCourses,
+                      courses: courseManager.filteredCourses.where((course) {
+                        return visibilityManager.courseVisibility[course.title] ?? true;
+                      }).toList(),
                       pageController: PageController(viewportFraction: 0.8),
                     ),
                     const Padding(
@@ -63,7 +66,9 @@ class CoursesPage extends StatelessWidget {
                       child: Text('Kursus liste', style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)),
                     ),
                     CourseListWidget(
-                      courses: courseManager.filteredCourses,
+                      courses: courseManager.filteredCourses.where((course) {
+                        return visibilityManager.courseVisibility[course.title] ?? true;
+                      }).toList(),
                     ),
                   ],
                 ),

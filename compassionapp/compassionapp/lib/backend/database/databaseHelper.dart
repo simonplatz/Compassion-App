@@ -18,11 +18,25 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: _onCreate,
-    );
+    try {
+      return await openDatabase(
+        path,
+        version: 1,
+        onCreate: _onCreate,
+      );
+    } catch (e) {
+      if (e is DatabaseException) {
+        // Handle database corruption
+        await deleteDatabase(path);
+        return await openDatabase(
+          path,
+          version: 1,
+          onCreate: _onCreate,
+        );
+      } else {
+        rethrow;
+      }
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {

@@ -1,6 +1,7 @@
+import 'package:compassionapp/features/questions/questions_data.dart';
+import 'package:compassionapp/services/visisbility_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:compassionapp/features/courses/courseManager.dart';
 
 class QuestionnairePage extends StatefulWidget {
   const QuestionnairePage({super.key});
@@ -17,17 +18,17 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
   String _preference = '';
   int _currentPage = 0;
 
+  final buttonStyle = ElevatedButton.styleFrom(
+    foregroundColor: Colors.white,
+    backgroundColor: Colors.teal,
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
-    final buttonStyle = ElevatedButton.styleFrom(
-      foregroundColor: Colors.white,
-      backgroundColor: Colors.teal,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Spørgeskema'),
@@ -74,81 +75,31 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                                 _currentPage = page;
                               });
                             },
-                            children: [
-                              _buildQuestionPage(
-                                question: 'Hvad er dit primære mål?',
-                                options: ['Reducere stress', 'Forbedre fokus', 'Øge medfølelse'],
-                                groupValue: _goal,
+                            children: questions.map((questionData) {
+                              return _buildQuestionPage(
+                                question: questionData.question,
+                                options:
+                                    List<String>.from(questionData.options),
+                                groupValue:
+                                    _getGroupValue(questionData.groupValue),
                                 onChanged: (value) {
                                   setState(() {
-                                    _goal = value!;
+                                    _setGroupValue(
+                                        questionData.groupValue, value!);
                                   });
                                 },
-                              ),
-                              _buildQuestionPage(
-                                question: 'Hvad er dit erfaringsniveau?',
-                                options: ['Begynder', 'Mellem', 'Avanceret'],
-                                groupValue: _experience,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _experience = value!;
-                                  });
-                                },
-                              ),
-                              _buildQuestionPage(
-                                question: 'Hvad er din foretrukne læringsstil?',
-                                options: ['Visuel', 'Auditiv', 'Kinæstetisk'],
-                                groupValue: _preference,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _preference = value!;
-                                  });
-                                },
-                              ),
-                            ],
+                              );
+                            }).toList(),
                           ),
                         ),
                       ],
                     ),
-                    if (_currentPage > 0)
+
                       Positioned(
                         bottom: 16.0,
                         left: 16.0,
-                        child: ElevatedButton(
-                          style: buttonStyle,
-                          onPressed: () {
-                            _pageController.previousPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          },
-                          child: const Text('Forrige', style: TextStyle(fontSize: 16)),
-                        ),
-                      ),
-                    Positioned(
-                      bottom: 16.0,
-                      right: 16.0,
-                      child: ElevatedButton(
-                        style: buttonStyle,
-                        onPressed: () {
-                          if (_currentPage < 2) {
-                            _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            );
-                          } else {
-                            if (_formKey.currentState!.validate()) {
-                              Provider.of<CourseManager>(context, listen: false).updateCourseVisibilityBasedOnAnswers(
-                                goal: _goal,
-                                experience: _experience,
-                                preference: _preference,
-                              );
-                              Navigator.pop(context);
-                            }
-                          }
-                        },
-                        child: Text(_currentPage < 2 ? 'Næste' : 'Indsend', style: const TextStyle(fontSize: 16)),
-                      ),
+                        right: 16.0,
+                       child: _buildNavigationButton(questionLength: questions.length),
                     ),
                   ],
                 ),
@@ -158,6 +109,90 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
         ),
       ),
     );
+  }
+
+  String _getGroupValue(String groupValue) {
+    switch (groupValue) {
+      case 'goal':
+        return _goal;
+      case 'experience':
+        return _experience;
+      case 'preference':
+        return _preference;
+      default:
+        return '';
+    }
+  }
+
+  void _setGroupValue(String groupValue, String value) {
+    switch (groupValue) {
+      case 'goal':
+        _goal = value;
+        break;
+      case 'experience':
+        _experience = value;
+        break;
+      case 'preference':
+        _preference = value;
+        break;
+    }
+  }
+
+  Widget _buildNavigationButton({required int questionLength}) {
+    if (_currentPage > 0 && _currentPage < questionLength - 1) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ElevatedButton(
+            style: buttonStyle,
+            onPressed: () {
+              _pageController.previousPage(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: const Text('Forrige', style: TextStyle(fontSize: 16)),
+          ),
+          ElevatedButton(
+            style: buttonStyle,
+            onPressed: () {
+              _pageController.nextPage(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            },
+            child: const Text('Næste', style: TextStyle(fontSize: 16)),
+          ),
+        ],
+      );
+    } else if (_currentPage == 0) {
+      return ElevatedButton(
+        style: buttonStyle,
+        onPressed: () {
+          _pageController.nextPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        },
+        child: const Text('Næste', style: TextStyle(fontSize: 16)),
+      );
+    } else {
+      return ElevatedButton(
+        style: buttonStyle,
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            Provider.of<VisibilityManager>(context, listen: false)
+                .updateVisibilityBasedOnAnswers(
+              goal: _goal,
+              experience: _experience,
+              preference: _preference,
+            );
+            Navigator.pop(context);
+          }
+        },
+        child: const Text('Indsend', style: TextStyle(fontSize: 16)),
+      );
+    }
   }
 
   Widget _buildQuestionPage({
