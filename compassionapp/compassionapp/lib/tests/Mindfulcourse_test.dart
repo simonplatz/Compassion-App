@@ -7,8 +7,11 @@ void main() {
   group('MindfulnessCourseContent Widget Tests', () {
     testWidgets('PageView is present', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: MindfulnessCourseContent(),
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(size: Size(800, 600)), // Set the desired screen size
+            child: const MindfulnessCourseContent(),
+          ),
         ),
       );
 
@@ -17,8 +20,11 @@ void main() {
 
     testWidgets('SmoothPageIndicator is present', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: MindfulnessCourseContent(),
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(size: Size(800, 600)), // Set the desired screen size
+            child: const MindfulnessCourseContent(),
+          ),
         ),
       );
 
@@ -27,8 +33,11 @@ void main() {
 
     testWidgets('Navigation buttons are present', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: MindfulnessCourseContent(),
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(size: Size(800, 600)), // Set the desired screen size
+            child: const MindfulnessCourseContent(),
+          ),
         ),
       );
 
@@ -45,8 +54,11 @@ void main() {
 
     testWidgets('Page 1 content is correct', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: MindfulnessCourseContent(),
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(size: Size(800, 600)), // Set the desired screen size
+            child: const MindfulnessCourseContent(),
+          ),
         ),
       );
 
@@ -57,8 +69,11 @@ void main() {
 
     testWidgets('Page 2 content is correct', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: MindfulnessCourseContent(),
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(size: Size(800, 600)), // Set the desired screen size
+            child: const MindfulnessCourseContent(),
+          ),
         ),
       );
 
@@ -74,8 +89,11 @@ void main() {
 
     testWidgets('Page 3 content is correct', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: MindfulnessCourseContent(),
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(size: Size(800, 600)), // Set the desired screen size
+            child: const MindfulnessCourseContent(),
+          ),
         ),
       );
 
@@ -90,8 +108,11 @@ void main() {
 
     testWidgets('Wrapping up page content is correct', (WidgetTester tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: MindfulnessCourseContent(),
+        MaterialApp(
+          home: MediaQuery(
+            data: MediaQueryData(size: Size(800, 600)), // Set the desired screen size
+            child: const MindfulnessCourseContent(),
+          ),
         ),
       );
 

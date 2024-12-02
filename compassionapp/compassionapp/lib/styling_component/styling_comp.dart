@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class StyledCard extends StatelessWidget {
- final Widget child;
+  final Widget child;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final BorderRadiusGeometry? borderRadius;
   final double? elevation;
   final ShapeBorder? shape;
+  final Color? color;
 
   const StyledCard({
     super.key,
@@ -16,6 +17,7 @@ class StyledCard extends StatelessWidget {
     this.borderRadius,
     this.elevation,
     this.shape,
+    this.color,
   });
 
   @override
@@ -27,6 +29,7 @@ class StyledCard extends StatelessWidget {
             borderRadius: borderRadius ?? BorderRadius.circular(30.0),
           ),
       elevation: elevation ?? 4.0,
+      color: color ?? Colors.teal[50], // Use the color property or default to teal[50]
       child: Padding(
         padding: padding ?? const EdgeInsets.all(7.0),
         child: child,

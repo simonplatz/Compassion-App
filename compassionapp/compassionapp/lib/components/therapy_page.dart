@@ -1,4 +1,3 @@
-import 'package:compassionapp/GlobalState/state_component.dart';
 import 'package:compassionapp/features/courses/courseManager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,6 @@ class TherapyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appState = Provider.of<AppState>(context);
     return Consumer<CourseManager>(
       builder: (context, courseManager, child) {
         final course = courseManager.getCourseByName(courseName);

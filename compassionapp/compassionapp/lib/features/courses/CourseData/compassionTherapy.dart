@@ -251,7 +251,6 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
 
   @override
   Widget build(BuildContext context) {
-    final courseManager = Provider.of<CourseManager>(context);
 
     return Scaffold(
       body: CustomScrollView(

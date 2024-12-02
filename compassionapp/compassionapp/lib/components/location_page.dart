@@ -144,56 +144,63 @@ Future<void> _getCurrentLocation() async {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final mapHeight = screenHeight * 0.6;
+ @override
+Widget build(BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final mapHeight = screenHeight * 0.6;
 
-    return Scaffold(
-      body: Consumer<VisibilityManager>(
-        builder: (context, visibilityManager, child) {
-          return Column(
-            children: [
-              SizedBox(
-                height: mapHeight,
-                child: maps.GoogleMap(
-                  initialCameraPosition: maps.CameraPosition(
-                    target: maps.LatLng(55.3680, 10.4289),
-                    zoom: 14.4746,
-                  ),
-                  markers: _markers,
-                  onMapCreated: (maps.GoogleMapController controller) {
-                    _mapController = controller;
-                  },
+  return Scaffold(
+    body: Consumer<VisibilityManager>(
+      builder: (context, visibilityManager, child) {
+        return Column(
+          children: [
+            SizedBox(
+              height: mapHeight,
+              child: maps.GoogleMap(
+                initialCameraPosition: maps.CameraPosition(
+                  target: maps.LatLng(55.3680, 10.4289),
+                  zoom: 14.4746,
                 ),
+                markers: _markers,
+                onMapCreated: (maps.GoogleMapController controller) {
+                  _mapController = controller;
+                },
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Valgt placering: $_selectedLocation',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(height: 20),
-                        Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: _buildLocationButtons(visibilityManager),
-                        ),
-                      ],
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Valgt placering: $_selectedLocation',
+                      style: const TextStyle(fontSize: 16),
                     ),
-                  ),
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 3.9,
+                        ),
+                        itemCount: _buildLocationButtons(visibilityManager).length,
+                        itemBuilder: (context, index) {
+                          return _buildLocationButtons(visibilityManager)[index];
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          );
-        },
-      ),
-    );
-  }
+            ),
+          ],
+        );
+      },
+    ),
+  );
+}
 
   Widget _buildStyledButton({
     required VoidCallback onPressed,
