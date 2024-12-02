@@ -33,6 +33,9 @@ class _JournalPageState extends State<JournalPage> {
               firstDay: DateTime.utc(2000, 1, 1),
               lastDay: DateTime.utc(2100, 12, 31),
               focusedDay: _focusedDay,
+              availableCalendarFormats: const {
+                CalendarFormat.month: 'Month',
+              },
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
               },
@@ -59,7 +62,10 @@ class _JournalPageState extends State<JournalPage> {
             ),
           ),
           if (_selectedDay != null)
-            JournalEntryBox(date: _selectedDay!),
+            JournalEntryBox(
+              key: ValueKey(_selectedDay),
+              date: _selectedDay!,
+            ),
         ],
       ),
     );
