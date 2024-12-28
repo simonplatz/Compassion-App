@@ -8,7 +8,7 @@ import 'individual_comps.dart/topbar.dart';
 import 'individual_comps.dart/navigation.dart';
 
 class BaseLayout extends StatelessWidget {
-  BaseLayout({super.key});
+  const BaseLayout({super.key});
 
   Widget _getPage(int index, DateTime? selectedJournalDate) {
     if (index == 1 && selectedJournalDate != null) {

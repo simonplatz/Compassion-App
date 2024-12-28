@@ -25,6 +25,8 @@ dependencies:
   flutter_dotenv: ^5.0.3
   geocoding: ^3.0.0
   geolocator: ^13.0.2
+  mockito: ^5.4.4
+  mocktail: ^1.0.4
   
 
 dev_dependencies:

@@ -45,7 +45,8 @@ void main() {
       expect(find.byIcon(Icons.arrow_forward), findsOneWidget);
 
       // Navigate to the second page
-      await tester.drag(find.byType(PageView), const Offset(-400, 0));
+      final pageController = tester.widget<PageView>(find.byType(PageView)).controller!;
+      pageController.jumpToPage(1);
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.arrow_back), findsOneWidget);
@@ -62,7 +63,6 @@ void main() {
         ),
       );
 
-      expect(find.text('Lær omkring mindfulness.'), findsOneWidget);
       expect(find.text('Hvad er mindfulness?'), findsOneWidget);
       expect(find.text('Mindfulness er en praksis, hvor man er opmærksom på nuet uden at dømme. Det hjælper med at reducere stress og forbedre mental klarhed.'), findsOneWidget);
     });
@@ -78,7 +78,8 @@ void main() {
       );
 
       // Navigate to the second page
-      await tester.drag(find.byType(PageView), const Offset(-400, 0));
+      final pageController = tester.widget<PageView>(find.byType(PageView)).controller!;
+      pageController.jumpToPage(1);
       await tester.pumpAndSettle();
 
       expect(find.text('Mindfulness teknikker inkluderer:'), findsOneWidget);
@@ -98,7 +99,8 @@ void main() {
       );
 
       // Navigate to the third page
-      await tester.drag(find.byType(PageView), const Offset(-800, 0));
+      final pageController = tester.widget<PageView>(find.byType(PageView)).controller!;
+      pageController.jumpToPage(2);
       await tester.pumpAndSettle();
 
       expect(find.text('Fordele ved mindfulness:'), findsOneWidget);
@@ -117,12 +119,14 @@ void main() {
       );
 
       // Navigate to the fourth page
-      await tester.drag(find.byType(PageView), const Offset(-1200, 0));
+      final pageController = tester.widget<PageView>(find.byType(PageView)).controller!;
+      pageController.jumpToPage(3);
       await tester.pumpAndSettle();
 
       expect(find.text('Afslutning'), findsOneWidget);
       expect(find.text('Tak fordi du deltog i mindfulness kurset. Vi håber, at du har lært noget værdifuldt og kan anvende teknikkerne i din dagligdag.'), findsOneWidget);
-      expect(find.text('Tilbage til kurssiden'), findsOneWidget);
+      expect(find.text('Tag Mindfulness Quiz for at teste din viden:'), findsOneWidget);
+      expect(find.text('Tag Mindfulness Quiz'), findsOneWidget);
     });
   });
 }

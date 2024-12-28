@@ -1,4 +1,3 @@
-import 'package:compassionapp/styling_component/styling_comp.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
