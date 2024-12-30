@@ -22,6 +22,7 @@ class CompassionTherapyContent extends StatefulWidget {
   const CompassionTherapyContent({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CompassionTherapyContentState createState() =>
       _CompassionTherapyContentState();
 }
@@ -110,12 +111,12 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
     );
   }
   void _showReflectionDialog() {
+    // ignore: unused_local_variable
+    String reflectionText = '';
     if (_selectedOption == null) return;
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        String reflectionText = '';
-
         return AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -158,7 +159,6 @@ class _CompassionTherapyContentState extends State<CompassionTherapyContent> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle the reflection text here if needed
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(

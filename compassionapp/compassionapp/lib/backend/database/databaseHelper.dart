@@ -49,20 +49,26 @@ class DatabaseHelper {
         mood TEXT
       )
     ''');
-    await db.execute('''
-      CREATE TABLE courses (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        description TEXT
-      )
-    ''');
   }
 
   // Journal Entry operations
-  Future<void> insertJournalEntry(JournalEntry entry) async {
+Future<void> insertOrUpdateJournalEntry(JournalEntry entry) async {
     final db = await database;
-    await db.insert('journal_entries', entry.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    final existingEntry = await getJournalEntryForDate(entry.date);
+    if (existingEntry != null) {
+      await db.update(
+        'journal_entries',
+        entry.toMap(),
+        where: 'id = ?',
+        whereArgs: [existingEntry.id],
+      );
+    } else {
+      await db.insert(
+        'journal_entries',
+        entry.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
   }
 
   Future<List<JournalEntry>> getJournalEntries() async {

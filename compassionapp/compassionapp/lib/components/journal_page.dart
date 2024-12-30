@@ -1,30 +1,18 @@
+import 'package:compassionapp/GlobalState/state_component.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:compassionapp/styling_component/styling_comp.dart';
-import '../components_modules/journalEntryBox.dart';
+import '../features/journal/journalEntryBox.dart';
 
-class JournalPage extends StatefulWidget {
-  final DateTime? selectedDate;
-
-  const JournalPage({super.key, this.selectedDate});
-
-  @override
-  _JournalPageState createState() => _JournalPageState();
-}
-
-class _JournalPageState extends State<JournalPage> {
-  late DateTime _focusedDay;
-  DateTime? _selectedDay;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusedDay = widget.selectedDate ?? DateTime.now();
-    _selectedDay = widget.selectedDate;
-  }
+class JournalPage extends StatelessWidget {
+  const JournalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+    final DateTime focusedDay = appState.selectedJournalDate ?? DateTime.now();
+
     return Scaffold(
       body: Column(
         children: [
@@ -32,22 +20,15 @@ class _JournalPageState extends State<JournalPage> {
             child: TableCalendar(
               firstDay: DateTime.utc(2000, 1, 1),
               lastDay: DateTime.utc(2100, 12, 31),
-              focusedDay: _focusedDay,
+              focusedDay: focusedDay,
               availableCalendarFormats: const {
                 CalendarFormat.month: 'Month',
               },
               selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
+                return isSameDay(appState.selectedJournalDate, day);
               },
               onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  if (isSameDay(_selectedDay, selectedDay)) {
-                    _selectedDay = null;
-                  } else {
-                    _selectedDay = selectedDay;
-                  }
-                  _focusedDay = focusedDay;
-                });
+                appState.setSelectedJournalDate(selectedDay);
               },
               calendarStyle: CalendarStyle(
                 selectedDecoration: BoxDecoration(
@@ -61,10 +42,10 @@ class _JournalPageState extends State<JournalPage> {
               ),
             ),
           ),
-          if (_selectedDay != null)
+          if (appState.selectedJournalDate != null)
             JournalEntryBox(
-              key: ValueKey(_selectedDay),
-              date: _selectedDay!,
+              key: ValueKey(appState.selectedJournalDate),
+              date: appState.selectedJournalDate!,
             ),
         ],
       ),

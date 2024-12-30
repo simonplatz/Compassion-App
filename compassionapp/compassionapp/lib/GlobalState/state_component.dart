@@ -7,12 +7,10 @@ class AppState extends ChangeNotifier {
   final CourseManager _courseManager = CourseManager();
   DateTime? _selectedJournalDate;
 
-
   int get selectedIndex => _selectedIndex;
   Locale get locale => _locale;
   CourseManager get courseManager => _courseManager;
   DateTime? get selectedJournalDate => _selectedJournalDate;
-
 
   void setSelectedIndex(int index) {
     _selectedIndex = index;
@@ -27,10 +25,15 @@ class AppState extends ChangeNotifier {
     }
     notifyListeners();
   }
-  
+
   void navigateToJournal(DateTime date) {
     _selectedJournalDate = date;
     _selectedIndex = 1; // this is the index for journal
+    notifyListeners();
+  }
+
+  void setSelectedJournalDate(DateTime date) {
+    _selectedJournalDate = date;
     notifyListeners();
   }
 }

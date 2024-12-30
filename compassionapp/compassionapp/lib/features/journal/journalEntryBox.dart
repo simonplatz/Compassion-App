@@ -108,7 +108,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
                   date: widget.date,
                   mood: MoodManager.moods[_moodValue.toInt()]['label']!,
                 );
-                await dbHelper.insertJournalEntry(newEntry);
+                await dbHelper.insertOrUpdateJournalEntry(newEntry);
                 if (mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Dagbogsindlæg gemt!')),

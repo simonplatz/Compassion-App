@@ -24,6 +24,7 @@ class MindfulnessCourseContent extends StatefulWidget {
   const MindfulnessCourseContent({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MindfulnessCourseContentState createState() =>
       _MindfulnessCourseContentState();
 }
@@ -31,6 +32,7 @@ class MindfulnessCourseContent extends StatefulWidget {
 class _MindfulnessCourseContentState extends State<MindfulnessCourseContent> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  // ignore: unused_field
   bool _isCourseCompleted = false;
 
   static const double arrowIconSize = 24.0;
