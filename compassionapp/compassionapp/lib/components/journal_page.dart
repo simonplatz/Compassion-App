@@ -43,10 +43,7 @@ class JournalPage extends StatelessWidget {
             ),
           ),
           if (appState.selectedJournalDate != null)
-            JournalEntryBox(
-              key: ValueKey(appState.selectedJournalDate),
-              date: appState.selectedJournalDate!,
-            ),
+            JournalEntryBox(),
         ],
       ),
     );

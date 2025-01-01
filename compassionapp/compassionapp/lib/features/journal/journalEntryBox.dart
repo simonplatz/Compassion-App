@@ -1,4 +1,5 @@
 // lib/components_modules/journalEntryBox.dart
+import 'package:compassionapp/GlobalState/state_component.dart';
 import 'package:compassionapp/backend/database/databaseHelper.dart';
 import 'package:compassionapp/features/journal/journalEntry.dart';
 import 'package:compassionapp/features/journal/moodManager.dart';
@@ -6,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class JournalEntryBox extends StatefulWidget {
-  final DateTime date;
-  const JournalEntryBox({super.key, required this.date});
+  const JournalEntryBox({super.key});
 
   @override
   _JournalEntryBoxState createState() => _JournalEntryBoxState();
@@ -22,12 +22,13 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
   @override
   void initState() {
     super.initState();
-    _fetchJournalEntry();
+    fetchJournalEntry();
   }
 
-  void _fetchJournalEntry() async {
+  void fetchJournalEntry() async {
     final dbHelper = Provider.of<DatabaseHelper>(context, listen: false);
-    final entry = await dbHelper.getJournalEntryForDate(widget.date);
+    final appState = Provider.of<AppState>(context, listen: false);
+    final entry = await dbHelper.getJournalEntryForDate(appState.selectedJournalDate!);
     if (entry != null) {
       setState(() {
         _journalEntry = entry;
@@ -52,6 +53,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
   @override
   Widget build(BuildContext context) {
     final dbHelper = DatabaseHelper();
+    final appState = Provider.of<AppState>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -105,7 +107,7 @@ class _JournalEntryBoxState extends State<JournalEntryBox> {
                 final newEntry = JournalEntry(
                   id: _journalEntry?.id,
                   content: _contentController.text,
-                  date: widget.date,
+                  date: appState.selectedJournalDate!,
                   mood: MoodManager.moods[_moodValue.toInt()]['label']!,
                 );
                 await dbHelper.insertOrUpdateJournalEntry(newEntry);
