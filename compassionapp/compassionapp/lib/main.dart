@@ -7,8 +7,10 @@ import 'GlobalState/state_component.dart';
 import 'backend/database/databaseHelper.dart';
 import 'components/localisation/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(

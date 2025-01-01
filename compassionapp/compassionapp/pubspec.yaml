@@ -48,5 +48,6 @@ flutter:
     - assets\soundClips\Meditation_1_5_min_meditation.m4a
     - assets\soundClips\Oevelse_1_Angst_og_svaere_feolelser.m4a
     - assets\soundClips\compassion_background_app_ready.png
+    - .env
     
 
