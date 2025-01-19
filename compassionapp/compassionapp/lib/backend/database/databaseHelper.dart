@@ -52,7 +52,7 @@ class DatabaseHelper {
   }
 
   // Journal Entry operations
-Future<void> insertOrUpdateJournalEntry(JournalEntry entry) async {
+  Future<void> insertOrUpdateJournalEntry(JournalEntry entry) async {
     final db = await database;
     final existingEntry = await getJournalEntryForDate(entry.date);
     if (existingEntry != null) {
@@ -96,13 +96,16 @@ Future<void> insertOrUpdateJournalEntry(JournalEntry entry) async {
   List<JournalEntry> getRecentEntries(List<JournalEntry> entries) {
     final now = DateTime.now();
     final fiveDaysAgo = now.subtract(const Duration(days: 5));
-    return entries.where((entry) => entry.date.isAfter(fiveDaysAgo) && entry.date.isBefore(now)).toList();
+    return entries.where((entry) {
+      final entryDate = entry.date;
+      return entryDate.isAfter(fiveDaysAgo) && entryDate.isBefore(now) ||
+          entryDate.isAtSameMomentAs(fiveDaysAgo) ||
+          entryDate.isAtSameMomentAs(now);
+    }).toList();
   }
-
 
   Future<void> deleteJournalEntry(int id) async {
     final db = await database;
     await db.delete('journal_entries', where: 'id = ?', whereArgs: [id]);
   }
-
 }

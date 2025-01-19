@@ -3,7 +3,7 @@
         android:label="compassionapp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="API_KEY"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCRB-xjkJRB5G8BCDU6Yd7y9pIT5xZI-4w"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
