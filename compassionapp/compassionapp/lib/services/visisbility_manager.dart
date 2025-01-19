@@ -17,100 +17,100 @@ class VisibilityManager extends ChangeNotifier {
   final DecisionTree decisionTree;
 
   VisibilityManager()
-      : decisionTree = DecisionTree(
-          DecisionTreeNode(
-            question: questions[0].question, // "Hvad er dit primære formål?"
-            options: {
-              'Reducere stress': DecisionTreeNode(
-                question: questions[1].question, // "Hvad er dit erfaringsniveau?"
-                options: {
-                  'Begynder': DecisionTreeNode(
-                    question: questions[2].question, // "Hvad er din foretrukne læringsstil?"
-                    options: {
-                      'Visuel': DecisionTreeNode(results: ["MindfulnessCourse"]),
-                      'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
-                      'Kinæstetisk': DecisionTreeNode(results: ["CompassionJourney"]),
-                    },
-                  ),
-                  'Mellem': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: ["CompassionTherapy"]),
-                      'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
-                      'Kinæstetisk': DecisionTreeNode(results: ["CompassionTherapy"]),
-                    },
-                  ),
-                  'Avanceret': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: []),
-                      'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
-                      'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
-                    },
-                  ),
-                },
-              ),
-              'Forbedre fokus': DecisionTreeNode(
-                question: questions[1].question,
-                options: {
-                  'Begynder': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: ["MindfulnessCourse"]),
-                      'Auditiv': DecisionTreeNode(results: []),
-                      'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
-                    },
-                  ),
-                  'Mellem': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: []),
-                      'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
-                      'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
-                    },
-                  ),
-                  'Avanceret': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: ["MindfulnessCourse"]),
-                      'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
-                      'Kinæstetisk': DecisionTreeNode(results: []),
-                    },
-                  ),
-                },
-              ),
-              'Øge medfølelse': DecisionTreeNode(
-                question: questions[1].question,
-                options: {
-                  'Begynder': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: []),
-                      'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
-                      'Kinæstetisk': DecisionTreeNode(results: []),
-                    },
-                  ),
-                  'Mellem': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: ["CompassionTherapy"]),
-                      'Auditiv': DecisionTreeNode(results: []),
-                      'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
-                    },
-                  ),
-                  'Avanceret': DecisionTreeNode(
-                    question: questions[2].question,
-                    options: {
-                      'Visuel': DecisionTreeNode(results: ["CompassionTherapy"]),
-                      'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
-                      'Kinæstetisk': DecisionTreeNode(results: []),
-                    },
-                  ),
-                },
-              ),
-            },
-          ),
-        );
+    : decisionTree = DecisionTree(
+        DecisionTreeNode(
+          question: questions[0].question, // "Hvad er dit primære formål?"
+          options: {
+            'Reducere stress': DecisionTreeNode(
+              question: questions[1].question, // "Hvad er dit erfaringsniveau?"
+              options: {
+                'Begynder': DecisionTreeNode(
+                  question: questions[2].question, // "Hvad er din foretrukne læringsstil?"
+                  options: {
+                    'Visuel': DecisionTreeNode(results: ["MindfulnessCourse"]),
+                    'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
+                    'Kinæstetisk': DecisionTreeNode(results: ["CompassionJourney"]),
+                  },
+                ),
+                'Mellem': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: ["CompassionTherapy"]),
+                    'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
+                    'Kinæstetisk': DecisionTreeNode(results: ["CompassionTherapy"]),
+                  },
+                ),
+                'Avanceret': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: []),
+                    'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
+                    'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
+                  },
+                ),
+              },
+            ),
+            'Forbedre fokus': DecisionTreeNode(
+              question: questions[1].question,
+              options: {
+                'Begynder': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: ["MindfulnessCourse"]),
+                    'Auditiv': DecisionTreeNode(results: []),
+                    'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
+                  },
+                ),
+                'Mellem': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: []),
+                    'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
+                    'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
+                  },
+                ),
+                'Avanceret': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: ["MindfulnessCourse"]),
+                    'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
+                    'Kinæstetisk': DecisionTreeNode(results: []),
+                  },
+                ),
+              },
+            ),
+            'Øge medfølelse': DecisionTreeNode(
+              question: questions[1].question,
+              options: {
+                'Begynder': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: []),
+                    'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
+                    'Kinæstetisk': DecisionTreeNode(results: []),
+                  },
+                ),
+                'Mellem': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: ["CompassionTherapy"]),
+                    'Auditiv': DecisionTreeNode(results: []),
+                    'Kinæstetisk': DecisionTreeNode(results: ["MindfulnessCourse"]),
+                  },
+                ),
+                'Avanceret': DecisionTreeNode(
+                  question: questions[2].question,
+                  options: {
+                    'Visuel': DecisionTreeNode(results: ["CompassionTherapy"]),
+                    'Auditiv': DecisionTreeNode(results: ["CompassionJourney"]),
+                    'Kinæstetisk': DecisionTreeNode(results: []),
+                  },
+                ),
+              },
+            ),
+          },
+        ),
+      );
 
   void updateVisibilityBasedOnAnswers({
     required String goal,
